@@ -1,4 +1,4 @@
-Сайт [Uni Food Plus](https://unifoodplus.xyz)
+Сайт [Uni Food Plus](https://unifood.space)
 
 ## Getting Started
 
