@@ -1,0 +1,45 @@
+/*it should be sticky in top*/
+.header {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 440px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    z-index: 100;
+    background: rgba(233, 223, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+.plus {
+    color: #B90778;
+    margin-left: 2px;
+    margin-top: -10px;
+    font-weight: 700;
+}
+
+.loginButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    border: 1px solid rgb(0, 0, 0);
+    background: #b9077800;
+    color: black;
+    border-radius: 100px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+}
