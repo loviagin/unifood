@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <header className={styles.header}>
         <div className={styles.logo}>
-          <span>Uni Food</span>
+          <a href="/">Uni Food</a>
           <div className={styles.plus}>+</div>
         </div>
         <button className={styles.loginButton}>

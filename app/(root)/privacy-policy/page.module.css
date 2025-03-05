@@ -1,0 +1,18 @@
+.main {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    margin-top: 60px;
+    padding: 40px 16px;
+    gap: 16px;
+}
+
+.main p {
+    line-height: 140%;
+}
+
+@media (max-width: 768px) {
+    .main h1 {
+        font-size: 22px;
+    }
+}
