@@ -1,0 +1,37 @@
+
+.benefits {
+    margin-top: 60px;
+    padding: 0 16px;
+}
+
+.benefits h2 {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 150%;
+}
+
+.benefits>p {
+    font-size: 20px;
+    margin-top: 5px;
+}
+
+.benefitCard {
+    width: 100%;
+    background: #D6C9EA;
+    border-radius: 25px;
+    margin-top: 30px;
+    text-align: center;
+    padding: 30px;
+}
+
+.benefitCard h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-top: 20px;
+}
+
+.benefitCard p {
+    font-size: 20px;
+    margin-top: 10px;
+    line-height: 150%;
+}
