@@ -1,0 +1,111 @@
+.hero {
+    text-align: left;
+    margin-top: 40px;
+    max-width: 440px;
+    margin: 0 auto;
+    background: url('/background.png') no-repeat center center / cover;
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    padding: 0 16px;
+}
+
+.plus {
+    color: #B90778;
+    margin-left: 2px;
+    margin-top: -15px;
+    font-weight: 700;
+}
+
+.main {
+    padding: 0 16px;
+    position: relative;
+    z-index: 2;
+}
+
+.heroText h1 {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+.coffeeImages {
+    position: relative;
+    height: 300px;
+    margin: 90px 0 0 -30px;
+    z-index: 1;
+}
+
+.cardContent {
+    width: 250px;
+    margin-top: -140px;
+    margin-left: auto;
+    margin-right: 0;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, rgba(185, 7, 120, 0.8) 0%, rgba(185, 7, 120, 0.1) 100%);
+    border: 2px solid rgba(185, 7, 120, 0.5);
+    border-radius: 12px;
+    padding: 20px;
+    color: #000;
+    z-index: 2;
+    position: relative;
+}
+
+.cardLogo {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+.cardNumber {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.cardName {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.joinButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 24px;
+    background: #FFFFFF;
+    border-radius: 100px;
+    border: none;
+    color: black;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.learnMore {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #000;
+    margin-top: 90px;
+    cursor: pointer;
+    padding: 0;
+}
+
+
+@media (max-width: 440px) {
+    .heroText h1 {
+        font-size: 28px;
+    }
+
+    .coffeeImages {
+        transform: scale(0.9);
+    }
+}
