@@ -1,14 +1,20 @@
 .hero {
     text-align: left;
     margin-top: 40px;
-    max-width: 440px;
     margin: 0 auto;
     background: url('/background.png') no-repeat center center / cover;
     font-family: 'Inter', sans-serif;
-    min-height: 100vh;
     position: relative;
     overflow: hidden;
     padding: 0 16px;
+}
+
+/*should revert*/
+.heroMain {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row-reverse;
 }
 
 .plus {
@@ -32,17 +38,24 @@
     margin-top: 40px;
 }
 
+.card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
 .coffeeImages {
     position: relative;
     height: 300px;
-    margin: 90px 0 0 -30px;
+    margin: 90px 0 0 0;
     z-index: 1;
 }
 
 .cardContent {
     width: 250px;
-    margin-top: -140px;
-    margin-left: auto;
+    margin-top: 240px;
+    margin-left: -100px;
     margin-right: 0;
     margin-bottom: 20px;
     background: linear-gradient(135deg, rgba(185, 7, 120, 0.8) 0%, rgba(185, 7, 120, 0.1) 100%);
@@ -95,17 +108,34 @@
     font-size: 14px;
     color: #000;
     margin-top: 90px;
+    margin-bottom: 90px;
     cursor: pointer;
     padding: 0;
 }
 
+@media (max-width: 768px) {
+    .hero {
+        min-height: 100vh;
+    }
 
-@media (max-width: 440px) {
     .heroText h1 {
         font-size: 28px;
     }
 
     .coffeeImages {
         transform: scale(0.9);
+    }
+
+    .heroMain {
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .card {
+        gap: 0;
+    }
+
+    .cardContent {
+        margin-right: 35px;
     }
 }
