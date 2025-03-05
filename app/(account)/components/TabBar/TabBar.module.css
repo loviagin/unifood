@@ -1,0 +1,61 @@
+.tabBar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(185, 7, 120, 0.1);
+    padding: 8px 0;
+    z-index: 1000;
+}
+
+.tabItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: #292D32;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 100px;
+    transition: all 0.3s ease;
+}
+
+.tabItem:hover {
+    background: rgba(185, 7, 120, 0.1);
+}
+
+.tabItem svg {
+    transition: transform 0.3s ease;
+}
+
+.tabItem:hover svg {
+    transform: translateY(-2px);
+}
+
+.tabItem span {
+    opacity: 0.8;
+}
+
+/* Активное состояние */
+.tabItem[aria-current="page"] {
+    color: #B90778;
+}
+
+.tabItem[aria-current="page"] svg path {
+    stroke: #B90778;
+}
+
+/* Для устройств с безопасной зоной (например, iPhone X и новее) */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    .tabBar {
+        padding-bottom: calc(8px + env(safe-area-inset-bottom));
+    }
+} 

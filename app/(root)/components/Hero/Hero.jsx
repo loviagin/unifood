@@ -35,8 +35,10 @@ const Hero = () => {
             </div>
 
             <button className={styles.joinButton}>
-                Вступить
-                <span className={styles.plus}>+</span>
+                <a href="/registration">
+                    Вступить
+                    <span className={styles.plus}>+</span>
+                </a>
             </button>
 
             <a href="/#more" className={styles.learnMore}>

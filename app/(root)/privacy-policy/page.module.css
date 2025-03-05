@@ -2,8 +2,9 @@
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    margin-top: 60px;
-    padding: 40px 16px;
+    margin-top: 100px;
+    margin-bottom: 20px;
+    padding: 0 max(16px, calc((100% - 1200px) / 2)); /* Центрирование с максимальной шириной */
     gap: 16px;
 }
 

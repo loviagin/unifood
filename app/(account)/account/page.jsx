@@ -1,8 +1,12 @@
 import React from 'react'
+import TabBar from '../components/TabBar/TabBar';
 
 const Account = () => {
   return (
-    <div>Account</div>
+    <div>
+      {/* Контент страницы */}
+      <TabBar />
+    </div>
   )
 }
 
