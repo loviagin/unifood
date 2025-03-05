@@ -1,37 +1,142 @@
-
 .benefits {
-    margin-top: 60px;
-    padding: 0 16px;
+    padding: 80px max(16px, calc((100% - 1200px) / 2));
+    position: relative;
+}
+
+.benefits::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        rgba(185, 7, 120, 0) 0%, 
+        rgba(185, 7, 120, 0.3) 50%,
+        rgba(185, 7, 120, 0) 100%
+    );
 }
 
 .benefits h2 {
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 150%;
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.2;
+    background: linear-gradient(135deg, #000 0%, #B90778 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 12px;
 }
 
-.benefits>p {
+.benefits > p {
     font-size: 20px;
-    margin-top: 5px;
+    color: rgba(0, 0, 0, 0.7);
+    margin-bottom: 60px;
+}
+
+.benefitsContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .benefitCard {
-    width: 100%;
-    background: #D6C9EA;
-    border-radius: 25px;
-    margin-top: 30px;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 24px;
+    padding: 32px;
     text-align: center;
-    padding: 30px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.benefitCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(185, 7, 120, 0.15);
+}
+
+.benefitCard img {
+    width: 104px;
+    height: 96px;
+    margin-bottom: 24px;
+    transition: transform 0.3s ease;
+}
+
+.benefitCard:hover img {
+    transform: scale(1.05);
 }
 
 .benefitCard h3 {
-    font-size: 20px;
+    font-size: 24px;
     font-weight: 700;
-    margin-top: 20px;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #000 0%, #B90778 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .benefitCard p {
     font-size: 16px;
-    margin-top: 10px;
-    line-height: 150%;
+    line-height: 1.6;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+@media (max-width: 768px) {
+    .benefits {
+        padding: 60px 16px;
+    }
+
+    .benefits h2 {
+        font-size: 28px;
+        text-align: center;
+    }
+
+    .benefits > p {
+        font-size: 16px;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .benefitsContainer {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .benefitCard {
+        padding: 24px;
+        animation: fadeInUp 0.6s ease forwards;
+        opacity: 0;
+    }
+
+    .benefitCard:nth-child(1) { animation-delay: 0.2s; }
+    .benefitCard:nth-child(2) { animation-delay: 0.4s; }
+    .benefitCard:nth-child(3) { animation-delay: 0.6s; }
+
+    .benefitCard img {
+        width: 80px;
+        height: 74px;
+        margin-bottom: 20px;
+    }
+
+    .benefitCard h3 {
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+
+    .benefitCard p {
+        font-size: 14px;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
