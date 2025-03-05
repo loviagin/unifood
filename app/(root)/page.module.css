@@ -1,0 +1,20 @@
+.page {
+  max-width: 440px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  position: relative;
+  overflow: visible;
+}
+
+.page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(185, 7, 120, 0.15) 0%, rgba(185, 7, 120, 0) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
