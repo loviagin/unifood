@@ -2,10 +2,12 @@
 import styles from './Registration.module.css';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { getAuth, createUserWithEmailAndPassword, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithPhoneNumber, PhoneAuthProvider, RecaptchaVerifier } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { useRouter } from 'next/navigation';
-import firebase from '../../../firebase/firebase';
+import { NumericFormat, PatternFormat } from 'react-number-format';
+import { app, auth } from '../../../firebase/firebase';
+import React from 'react';
 
 const Registration = () => {
   const [authType, setAuthType] = useState('email');
@@ -14,14 +16,13 @@ const Registration = () => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [birthDate, setBirthDate] = useState('');
-  const [smsCode, setSmsCode] = useState('');
   const [error, setError] = useState('');
   const [verificationId, setVerificationId] = useState(null);
+  const [smsCode, setSmsCode] = useState('');
   const [isCodeSent, setIsCodeSent] = useState(false);
   const router = useRouter();
 
-  const auth = getAuth(firebase);
-  const db = getFirestore(firebase);
+  const db = getFirestore(app);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -30,79 +31,74 @@ const Registration = () => {
       }
     });
 
-    return () => {
-      unsubscribe();
-    };
+    return () => unsubscribe();
   }, []);
 
-  useEffect(() => {
-    const auth = getAuth(firebase);
-    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-      size: 'invisible',
-      callback: () => {
-        // Callback после успешной верификации
-      },
-      'expired-callback': () => {
-        // Callback при истечении срока действия
-        setError('Время истекло. Попробуйте снова.');
-      }
-    });
+  const formatPhoneNumber = (phone) => {
+    // Убираем все нецифровые символы
+    const cleaned = phone.replace(/\D/g, '');
+    // Добавляем +7 если номер начинается с 8 или 7
+    if (cleaned.startsWith('8') || cleaned.startsWith('7')) {
+      return '+7' + cleaned.slice(1);
+    }
+    // Если номер начинается с других цифр, добавляем +7
+    return cleaned ? '+7' + cleaned : '';
+  };
 
-    // Очистка при размонтировании
-    return () => {
-      if (window.recaptchaVerifier) {
-        window.recaptchaVerifier.clear();
-      }
-    };
-  }, []);
+  const handlePhoneChange = (values) => {
+    const { value } = values;
+    setPhone(value);
+  };
 
   const handleSendCode = async (e) => {
     e.preventDefault();
-    const auth = getAuth(firebase);
+    
+    if (!name || !birthDate) {
+      setError('Пожалуйста, заполните все поля');
+      return;
+    }
 
     try {
       // Форматируем номер телефона
-      let formattedPhone = phone;
-      if (!formattedPhone.startsWith('+')) {
-        formattedPhone = `+7${phone.replace(/\D/g, '')}`;
+      let formattedPhone = phone.replace(/[^\d]/g, '');
+      if (formattedPhone.startsWith('8')) {
+        formattedPhone = '7' + formattedPhone.slice(1);
+      } else if (!formattedPhone.startsWith('7')) {
+        formattedPhone = '7' + formattedPhone;
       }
+      formattedPhone = '+' + formattedPhone;
 
-      // Проверяем формат номера
-      if (formattedPhone.length < 12) {
+      if (formattedPhone.length !== 12) {
         setError('Введите корректный номер телефона');
         return;
       }
 
-      // Отправляем SMS
-      const appVerifier = window.recaptchaVerifier;
-      const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, appVerifier);
-      setVerificationId(confirmationResult);
-      setIsCodeSent(true);
-      setError('');
+      // Создаем новый reCAPTCHA каждый раз
+      const verifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        size: 'normal',
+        callback: async (response) => {
+          try {
+            const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, verifier);
+            setVerificationId(confirmationResult);
+            setIsCodeSent(true);
+            setError('');
+          } catch (error) {
+            console.error('SMS Error:', error);
+            setError('Ошибка при отправке кода. Попробуйте снова.');
+          }
+        },
+        'expired-callback': () => {
+          setError('Время истекло. Попробуйте снова.');
+          verifier.clear();
+        }
+      });
+
+      // Рендерим капчу
+      await verifier.render();
+      
     } catch (error) {
       console.error('SMS Error:', error);
       setError('Ошибка при отправке кода. Попробуйте снова.');
-
-      // Сбрасываем reCAPTCHA при ошибке
-      if (window.recaptchaVerifier) {
-        window.recaptchaVerifier.clear();
-        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-          size: 'invisible'
-        });
-      }
-    }
-  };
-
-  const createUserDocument = async (userId, userData) => {
-    try {
-      await setDoc(doc(db, 'users', userId), {
-        ...userData,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      });
-    } catch (error) {
-      console.error('Error creating user document:', error);
-      throw error;
     }
   };
 
@@ -124,30 +120,46 @@ const Registration = () => {
           phone: '',
           authType: 'email'
         });
-        router.push('/account');
       } else if (authType === 'phone' && verificationId) {
-        const result = await verificationId.confirm(smsCode);
-        await createUserDocument(result.user.uid, {
+        const credential = PhoneAuthProvider.credential(verificationId, smsCode);
+        const userCredential = await auth.signInWithCredential(credential);
+        await createUserDocument(userCredential.user.uid, {
           name,
           birthDate,
           email: '',
           phone,
           authType: 'phone'
         });
-        router.push('/account');
       }
+
+      router.push('/account');
     } catch (error) {
       console.error('Registration error:', error);
       setError('Ошибка при регистрации. Попробуйте снова.');
     }
   };
 
+  const createUserDocument = async (userId, userData) => {
+    try {
+      await setDoc(doc(db, 'users', userId), {
+        ...userData,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      });
+    } catch (error) {
+      console.error('Error creating user document:', error);
+      throw error;
+    }
+  };
+
   const handleAuthTypeChange = (type) => {
     setAuthType(type);
     setError('');
+    setEmail('');
+    setPhone('');
+    setSmsCode('');
     setIsCodeSent(false);
     setVerificationId(null);
-    setSmsCode('');
   };
 
   return (
@@ -225,22 +237,26 @@ const Registration = () => {
           ) : (
             <>
               <div className={styles.inputGroup}>
-                <input
-                  type="tel"
-                  placeholder="Номер телефона"
+                <PatternFormat
+                  format="+7 (###) ###-##-##"
+                  mask="_"
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onValueChange={handlePhoneChange}
+                  customInput={input}
                   disabled={isCodeSent}
+                  placeholder="+7 (___) ___-__-__"
                   required
                 />
               </div>
               {isCodeSent && (
                 <div className={styles.inputGroup}>
-                  <input
-                    type="text"
-                    placeholder="Введите код из SMS"
+                  <PatternFormat
+                    format="######"
+                    mask="_"
                     value={smsCode}
-                    onChange={(e) => setSmsCode(e.target.value)}
+                    onValueChange={({ value }) => setSmsCode(value)}
+                    customInput={input}
+                    placeholder="Введите код из SMS"
                     required
                   />
                 </div>
@@ -265,5 +281,11 @@ const Registration = () => {
     </div>
   );
 }
+
+// Компонент для кастомного инпута
+const input = React.forwardRef((props, ref) => (
+  <input {...props} ref={ref} className={styles.input} />
+));
+input.displayName = 'Input';
 
 export default Registration;

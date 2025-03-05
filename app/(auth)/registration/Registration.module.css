@@ -62,34 +62,48 @@
     margin-top: 0;
 }
 
-.inputGroup input {
+/* Общие стили для всех полей ввода */
+.inputGroup input,
+.input {
     width: 100%;
     padding: 16px;
     border: 1px solid rgba(185, 7, 120, 0.3);
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.5);
     font-size: 16px;
-    transition: all 0.3s ease;
     color: rgba(0, 0, 0, 0.8);
+    transition: all 0.3s ease;
 }
 
-.inputGroup input::placeholder {
+.inputGroup input::placeholder,
+.input::placeholder {
     color: rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.5px;
 }
 
-.inputGroup input:focus {
+.inputGroup input:focus,
+.input:focus {
     outline: none;
     border-color: #B90778;
     background: rgba(255, 255, 255, 0.8);
     box-shadow: 0 4px 20px rgba(185, 7, 120, 0.15);
 }
 
-.inputGroup input:disabled {
+.inputGroup input:disabled,
+.input:disabled {
     background: rgba(255, 255, 255, 0.3);
     cursor: not-allowed;
     color: rgba(0, 0, 0, 0.5);
 }
 
+/* Специальные стили для поля с SMS кодом */
+.input[placeholder="Введите код из SMS"] {
+    letter-spacing: 8px;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* Специальные стили для поля с датой */
 .inputGroup input[type="date"] {
     color: rgba(0, 0, 0, 0.8);
 }
@@ -104,7 +118,7 @@
     filter: opacity(0.8);
 }
 
-/* Стиль для placeholder в поле даты */
+/* Стили для placeholder в поле даты */
 .inputGroup input[type="date"]::-webkit-datetime-edit-text,
 .inputGroup input[type="date"]::-webkit-datetime-edit-month-field,
 .inputGroup input[type="date"]::-webkit-datetime-edit-day-field,
@@ -202,6 +216,7 @@
     color: #B90778;
 }
 
+/* Медиа-запросы */
 @media (max-width: 768px) {
     .content {
         margin: 20px auto;
@@ -216,7 +231,8 @@
         margin-bottom: 32px;
     }
 
-    .inputGroup input {
+    .inputGroup input,
+    .input {
         padding: 14px;
         font-size: 14px;
     }
@@ -235,9 +251,15 @@
 }
 
 .recaptchaContainer {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0; /* Скрываем, так как используем invisible режим */
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+    transform-origin: center;
+    transform: scale(0.9);
+}
+
+@media (max-width: 768px) {
+    .recaptchaContainer {
+        transform: scale(0.8);
+    }
 } 
