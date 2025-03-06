@@ -4,9 +4,11 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { PatternFormat } from 'react-number-format';
-import { auth } from '../../firebase/firebase';
+
+import { getAuth } from "firebase/auth";
+import { app } from '../../firebase/firebase';
+
 import React from 'react';
-import { loginWithEmail, loginWithPhone } from '../../api/auth';
 
 const Login = () => {
   const [authType, setAuthType] = useState('email');
@@ -17,6 +19,8 @@ const Login = () => {
   const [verificationId, setVerificationId] = useState(null);
   const [smsCode, setSmsCode] = useState('');
   const [isCodeSent, setIsCodeSent] = useState(false);
+
+  const auth = getAuth(app);
   const router = useRouter();
 
   useEffect(() => {

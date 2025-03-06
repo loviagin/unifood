@@ -24,10 +24,6 @@
   transition: transform 0.3s ease;
 }
 
-.logo:hover {
-  transform: scale(1.05);
-}
-
 .plus {
   margin-left: 2px;
   font-size: 24px;
@@ -78,6 +74,7 @@
   font-size: 16px;
   background: white;
   transition: all 0.3s ease;
+  color: rgba(0, 0, 0, 0.8);
 }
 
 .input:hover,
@@ -104,6 +101,11 @@
 
 .inputGroup input[type="date"]:focus,
 .inputGroup input[type="date"]:valid {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+/* Добавляем стили для input type="password" */
+.inputGroup input[type="password"] {
   color: rgba(0, 0, 0, 0.8);
 }
 
