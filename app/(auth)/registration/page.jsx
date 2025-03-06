@@ -12,7 +12,7 @@ const Registration = () => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [birthDate, setBirthDate] = useState('');
+  const [birthDate, setBirthDate] = useState('2000-01-01');
   const [error, setError] = useState('');
 
   const router = useRouter();
@@ -130,6 +130,8 @@ const Registration = () => {
               onChange={(e) => setBirthDate(e.target.value)}
               required
               className={!birthDate ? styles.empty : ''}
+              min="1900-01-01"
+              max={new Date().toISOString().split('T')[0]}
             />
           </div>
 
