@@ -124,9 +124,15 @@ const Registration = () => {
 
           <div className={styles.inputGroup}>
             <input
-              type="date"
+              type="text"
               placeholder="Дата рождения"
               value={birthDate}
+              onFocus={(e) => e.target.type = 'date'}
+              onBlur={(e) => {
+                if (!e.target.value) {
+                  e.target.type = 'text';
+                }
+              }}
               onChange={(e) => setBirthDate(e.target.value)}
               required
             />

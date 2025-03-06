@@ -94,14 +94,29 @@
   color: rgba(0, 0, 0, 0.4);
 }
 
-/* Стили для input type="date" */
+/* Стили для поля даты */
 .inputGroup input[type="date"] {
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.8);
+  min-width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-.inputGroup input[type="date"]:focus,
-.inputGroup input[type="date"]:valid {
+.inputGroup input[type="date"]::-webkit-calendar-picker-indicator {
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.inputGroup input[type="date"]::-webkit-datetime-edit-text,
+.inputGroup input[type="date"]::-webkit-datetime-edit-month-field,
+.inputGroup input[type="date"]::-webkit-datetime-edit-day-field,
+.inputGroup input[type="date"]::-webkit-datetime-edit-year-field {
   color: rgba(0, 0, 0, 0.8);
+}
+
+/* Стили для плейсхолдера */
+.inputGroup input[type="text"]::placeholder {
+  color: rgba(0, 0, 0, 0.4);
 }
 
 /* Добавляем стили для input type="password" */
@@ -267,27 +282,6 @@
   -webkit-appearance: none; /* Для iOS */
 }
 
-/* Специальные стили для поля даты */
-.field input[type="date"] {
-  min-width: 100%;
-  -webkit-appearance: none;
-  appearance: none;
-  padding-right: 16px; /* Для иконки календаря */
-}
-
-/* Стили для placeholder в поле даты */
-.field input[type="date"]::-webkit-datetime-edit-text,
-.field input[type="date"]::-webkit-datetime-edit-month-field,
-.field input[type="date"]::-webkit-datetime-edit-day-field,
-.field input[type="date"]::-webkit-datetime-edit-year-field {
-  color: rgba(0, 0, 0, 0.8);
-}
-
-.field input[type="date"]::-webkit-calendar-picker-indicator {
-  color: rgba(0, 0, 0, 0.5);
-  cursor: pointer;
-}
-
 /* Медиа-запросы */
 @media (max-width: 768px) {
   .container {
@@ -316,8 +310,8 @@
   }
 
   .field input[type="date"] {
-    min-width: 100%;
-    padding-right: 14px;
+    font-size: 14px;
+    padding: 14px;
   }
 
   .submitButton {
