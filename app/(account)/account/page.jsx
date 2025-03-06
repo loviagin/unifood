@@ -3,6 +3,7 @@ import styles from '../styles/Account.module.css';
 import TabBar from '../components/TabBar/TabBar';
 import { useState, useEffect } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
+import { useRouter } from 'next/navigation';
 
 const Account = () => {
   const [bonuses, setBonuses] = useState(0);
@@ -12,24 +13,22 @@ const Account = () => {
   const [qrValue, setQrValue] = useState('');
   const [expandedSection, setExpandedSection] = useState(null);
   
-  useEffect(() => {
-    const getDeviceId = () => {
-      let deviceId = localStorage.getItem('deviceId');
-      if (!deviceId) {
-        deviceId = crypto.randomUUID();
-        localStorage.setItem('deviceId', deviceId);
-      }
-      return deviceId;
-    };
+  const router = useRouter();
 
-    const deviceId = getDeviceId();
-    const qrData = {
-      userId: 'user123',
-      deviceId: deviceId,
-      timestamp: Date.now()
-    };
-    
-    setQrValue(JSON.stringify(qrData));
+  useEffect(() => {
+    // Проверяем авторизацию при загрузке
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      const user = JSON.parse(currentUser);
+      // Устанавливаем данные пользователя
+      setBonuses(user.bonuses || 0);
+      setLevel(user.level || 'Новичок');
+      setNextLevel(user.nextLevel || 1000);
+      setProgress(user.progress || 0);
+      setQrValue(user.id?.toString() || '');
+    } else {
+      router.push('/login');
+    }
   }, []);
 
   // Для отладки
