@@ -147,7 +147,7 @@ const Account = () => {
                 <p>Оплачивайте заказы и получайте до 7% бонусами</p>
               </div>
             </div>
-
+{/* пишем div */}
             <div className={styles.card}>
               <button 
                 className={`${styles.accordion} ${expandedSection === 'spend' ? styles.expanded : ''}`}
