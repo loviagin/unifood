@@ -242,6 +242,53 @@
   box-shadow: 0 2px 10px rgba(185, 7, 120, 0.1);
 }
 
+/* Общие стили для полей ввода */
+.field {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.field label {
+  display: block;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 8px;
+}
+
+.field input {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid rgba(185, 7, 120, 0.1);
+  border-radius: 12px;
+  font-size: 16px;
+  background: white;
+  color: rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease;
+  -webkit-appearance: none; /* Для iOS */
+}
+
+/* Специальные стили для поля даты */
+.field input[type="date"] {
+  min-width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  padding-right: 16px; /* Для иконки календаря */
+}
+
+/* Стили для placeholder в поле даты */
+.field input[type="date"]::-webkit-datetime-edit-text,
+.field input[type="date"]::-webkit-datetime-edit-month-field,
+.field input[type="date"]::-webkit-datetime-edit-day-field,
+.field input[type="date"]::-webkit-datetime-edit-year-field {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.field input[type="date"]::-webkit-calendar-picker-indicator {
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+/* Медиа-запросы */
 @media (max-width: 768px) {
   .container {
     background: white;
@@ -263,10 +310,14 @@
     margin-bottom: 32px;
   }
 
-  .inputGroup input,
-  .input {
+  .field input {
     padding: 14px;
     font-size: 14px;
+  }
+
+  .field input[type="date"] {
+    min-width: 100%;
+    padding-right: 14px;
   }
 
   .submitButton {
