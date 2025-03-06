@@ -102,16 +102,35 @@
   appearance: none;
 }
 
+/* Стили для пустого поля даты */
+.inputGroup input[type="date"].empty::-webkit-datetime-edit {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* Стили для плейсхолдера в Safari */
+.inputGroup input[type="date"]::-webkit-datetime-edit {
+  color: rgba(0, 0, 0, 0.8);
+}
+
 .inputGroup input[type="date"]::-webkit-calendar-picker-indicator {
   color: rgba(0, 0, 0, 0.5);
   cursor: pointer;
+  padding: 8px;
+  position: absolute;
+  right: 8px;
 }
 
-.inputGroup input[type="date"]::-webkit-datetime-edit-text,
-.inputGroup input[type="date"]::-webkit-datetime-edit-month-field,
-.inputGroup input[type="date"]::-webkit-datetime-edit-day-field,
-.inputGroup input[type="date"]::-webkit-datetime-edit-year-field {
-  color: rgba(0, 0, 0, 0.8);
+/* Стили для мобильных устройств */
+@media (max-width: 768px) {
+  .inputGroup input[type="date"] {
+    font-size: 14px;
+    padding: 14px;
+  }
+  
+  .inputGroup input[type="date"]::-webkit-calendar-picker-indicator {
+    padding: 4px;
+    right: 4px;
+  }
 }
 
 /* Стили для плейсхолдера */
