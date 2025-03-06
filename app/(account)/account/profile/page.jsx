@@ -4,7 +4,7 @@ import { getFirestore, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useRouter } from 'next/navigation';
 import styles from './Profile.module.css';
 import TabBar from '../../components/TabBar/TabBar';
-import { app, auth } from '../../../../firebase/firebase';
+import { app, auth } from '../../../firebase/firebase';
 
 const Profile = () => {
   const [user, setUser] = useState(null);

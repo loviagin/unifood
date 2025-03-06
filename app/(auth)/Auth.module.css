@@ -1,0 +1,279 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, rgba(185, 7, 120, 0.05) 0%, rgba(255, 77, 168, 0.05) 100%);
+}
+
+.header {
+  padding: 16px;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #B90778;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.plus {
+  margin-left: 2px;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.content {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 24px;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(185, 7, 120, 0.1);
+}
+
+.content h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+  background: linear-gradient(135deg, #B90778 0%, #FF4DA8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.7);
+  margin: 8px 0 32px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inputGroup {
+  position: relative;
+}
+
+.input,
+.inputGroup input {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid rgba(185, 7, 120, 0.1);
+  border-radius: 12px;
+  font-size: 16px;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.input:hover,
+.inputGroup input:hover {
+  border-color: rgba(185, 7, 120, 0.3);
+}
+
+.input:focus,
+.inputGroup input:focus {
+  outline: none;
+  border-color: #B90778;
+  box-shadow: 0 0 0 4px rgba(185, 7, 120, 0.1);
+}
+
+.input::placeholder,
+.inputGroup input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* Стили для input type="date" */
+.inputGroup input[type="date"] {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.inputGroup input[type="date"]:focus,
+.inputGroup input[type="date"]:valid {
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.submitButton {
+  background: linear-gradient(135deg, #B90778 0%, #FF4DA8 100%);
+  color: white;
+  border: none;
+  border-radius: 100px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.submitButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(185, 7, 120, 0.3);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+}
+
+.submitButton::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.submitButton:hover::after {
+  transform: translateX(100%);
+}
+
+.error {
+  color: #B90778;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 8px;
+  padding: 12px;
+  background: rgba(185, 7, 120, 0.1);
+  border-radius: 8px;
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.authLink {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.authLink span {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.authLink a {
+  color: #B90778;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 100px;
+  background: rgba(185, 7, 120, 0.1);
+  transition: all 0.3s ease;
+}
+
+.authLink a:hover {
+  background: rgba(185, 7, 120, 0.15);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(185, 7, 120, 0.15);
+}
+
+.authLink a:active {
+  transform: translateY(0);
+}
+
+.authTypeSwitch {
+  display: flex;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 4px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+  border: 2px solid rgba(185, 7, 120, 0.1);
+}
+
+.authTypeButton {
+  flex: 1;
+  padding: 12px 16px;
+  border: none;
+  background: none;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.authTypeButton.active {
+  background: white;
+  color: #B90778;
+  box-shadow: 0 2px 10px rgba(185, 7, 120, 0.1);
+}
+
+.authTypeButton:hover:not(.active) {
+  color: #B90778;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.recaptchaContainer {
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(185, 7, 120, 0.1);
+}
+
+@media (max-width: 768px) {
+  .container {
+    background: white;
+  }
+  
+  .content {
+    margin: 0;
+    padding: 20px;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  .content h1 {
+    font-size: 28px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+
+  .inputGroup input,
+  .input {
+    padding: 14px;
+    font-size: 14px;
+  }
+
+  .submitButton {
+    padding: 14px;
+    font-size: 15px;
+  }
+
+  .authTypeButton {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+} 

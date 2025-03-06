@@ -1,12 +1,12 @@
 'use client';
-import styles from './Registration.module.css';
+import styles from '../Auth.module.css';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { createUserWithEmailAndPassword, signInWithPhoneNumber, PhoneAuthProvider, RecaptchaVerifier } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import { useRouter } from 'next/navigation';
-import { NumericFormat, PatternFormat } from 'react-number-format';
-import { app, auth } from '../../../firebase/firebase';
+import { PatternFormat } from 'react-number-format';
+import { app, auth } from '../../firebase/firebase';
+import { sendVerificationCode, registerUser } from '../../api/auth';
 import React from 'react';
 
 const Registration = () => {
@@ -34,17 +34,6 @@ const Registration = () => {
     return () => unsubscribe();
   }, []);
 
-  const formatPhoneNumber = (phone) => {
-    // Убираем все нецифровые символы
-    const cleaned = phone.replace(/\D/g, '');
-    // Добавляем +7 если номер начинается с 8 или 7
-    if (cleaned.startsWith('8') || cleaned.startsWith('7')) {
-      return '+7' + cleaned.slice(1);
-    }
-    // Если номер начинается с других цифр, добавляем +7
-    return cleaned ? '+7' + cleaned : '';
-  };
-
   const handlePhoneChange = (values) => {
     const { value } = values;
     setPhone(value);
@@ -58,48 +47,17 @@ const Registration = () => {
       return;
     }
 
-    try {
-      // Форматируем номер телефона
-      let formattedPhone = phone.replace(/[^\d]/g, '');
-      if (formattedPhone.startsWith('8')) {
-        formattedPhone = '7' + formattedPhone.slice(1);
-      } else if (!formattedPhone.startsWith('7')) {
-        formattedPhone = '7' + formattedPhone;
+    await sendVerificationCode(
+      { phone, name, birthDate },
+      (confirmationResult) => {
+        setVerificationId(confirmationResult);
+        setIsCodeSent(true);
+        setError('');
+      },
+      (errorMessage) => {
+        setError(errorMessage);
       }
-      formattedPhone = '+' + formattedPhone;
-
-      if (formattedPhone.length !== 12) {
-        setError('Введите корректный номер телефона');
-        return;
-      }
-
-      // Создаем новый reCAPTCHA каждый раз
-      const verifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        size: 'normal',
-        callback: async (response) => {
-          try {
-            const confirmationResult = await signInWithPhoneNumber(auth, formattedPhone, verifier);
-            setVerificationId(confirmationResult);
-            setIsCodeSent(true);
-            setError('');
-          } catch (error) {
-            console.error('SMS Error:', error);
-            setError('Ошибка при отправке кода. Попробуйте снова.');
-          }
-        },
-        'expired-callback': () => {
-          setError('Время истекло. Попробуйте снова.');
-          verifier.clear();
-        }
-      });
-
-      // Рендерим капчу
-      await verifier.render();
-      
-    } catch (error) {
-      console.error('SMS Error:', error);
-      setError('Ошибка при отправке кода. Попробуйте снова.');
-    }
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -111,46 +69,64 @@ const Registration = () => {
     }
 
     try {
-      if (authType === 'email') {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await createUserDocument(userCredential.user.uid, {
-          name,
-          birthDate,
-          email,
-          phone: '',
-          authType: 'email'
+      if (authType === 'phone' && !isCodeSent) {
+        console.log('Sending verification code...');
+        await sendVerificationCode(
+          { phone },
+          (confirmationResult) => {
+            console.log('Code sent successfully');
+            setVerificationId(confirmationResult);
+            setIsCodeSent(true);
+            setError('');
+          },
+          (errorMessage) => {
+            console.error('Code sending failed:', errorMessage);
+            setError(errorMessage);
+          }
+        );
+      } else {
+        console.log('Starting registration with:', {
+          authType,
+          hasVerificationId: !!verificationId,
+          smsCode,
+          phone
         });
-      } else if (authType === 'phone' && verificationId) {
-        const credential = PhoneAuthProvider.credential(verificationId, smsCode);
-        const userCredential = await auth.signInWithCredential(credential);
-        await createUserDocument(userCredential.user.uid, {
-          name,
-          birthDate,
-          email: '',
-          phone,
-          authType: 'phone'
-        });
-      }
 
-      router.push('/account');
+        const user = await registerUser(authType, {
+          email,
+          password,
+          phone,
+          name,
+          birthDate,
+          verificationId,
+          smsCode
+        });
+
+        console.log('Registration successful:', user);
+
+        if (user) {
+          const currentUser = auth.currentUser;
+          console.log('Current user check:', {
+            hasCurrentUser: !!currentUser,
+            currentUid: currentUser?.uid,
+            expectedUid: user.uid
+          });
+
+          if (currentUser && currentUser.uid === user.uid) {
+            router.push('/account');
+          } else {
+            throw new Error('User not authenticated after registration');
+          }
+        } else {
+          throw new Error('Registration failed');
+        }
+      }
     } catch (error) {
       console.error('Registration error:', error);
       setError('Ошибка при регистрации. Попробуйте снова.');
     }
   };
 
-  const createUserDocument = async (userId, userData) => {
-    try {
-      await setDoc(doc(db, 'users', userId), {
-        ...userData,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      });
-    } catch (error) {
-      console.error('Error creating user document:', error);
-      throw error;
-    }
-  };
 
   const handleAuthTypeChange = (type) => {
     setAuthType(type);
@@ -192,7 +168,7 @@ const Registration = () => {
           </button>
         </div>
 
-        <form onSubmit={authType === 'phone' && !isCodeSent ? handleSendCode : handleSubmit} className={styles.form}>
+        <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.inputGroup}>
             <input
               type="text"
@@ -266,18 +242,28 @@ const Registration = () => {
 
           {error && <div className={styles.error}>{error}</div>}
 
-          <button type="submit" className={styles.submitButton}>
-            {authType === 'phone'
+          {/* Контейнер для капчи */}
+          {authType === 'phone' && !isCodeSent && (
+            <div id="recaptcha-container" className={styles.recaptchaContainer}></div>
+          )}
+
+          <button 
+            id="sign-in-button" 
+            type="submit" 
+            className={styles.submitButton}
+          >
+            {authType === 'phone' 
               ? (isCodeSent ? 'Подтвердить' : 'Получить код')
-              : 'Создать аккаунт'}
+              : 'Создать аккаунт'
+            }
           </button>
         </form>
 
-        <div className={styles.loginLink}>
-          Уже есть аккаунт? <Link href="/login">Войти</Link>
+        <div className={styles.authLink}>
+          <span>Уже есть аккаунт?</span>
+          <Link href="/login">Войти</Link>
         </div>
       </div>
-      <div id="recaptcha-container" className={styles.recaptchaContainer}></div>
     </div>
   );
 }

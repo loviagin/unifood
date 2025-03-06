@@ -254,8 +254,6 @@
     margin: 20px auto;
     display: flex;
     justify-content: center;
-    transform-origin: center;
-    transform: scale(0.9);
 }
 
 @media (max-width: 768px) {

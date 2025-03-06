@@ -1,27 +1,34 @@
 'use client';
 import styles from './TabBar.module.css';
 import Link from 'next/link';
-import { useEffect } from 'react';
-import { getAuth } from "firebase/auth";
+import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import firebase from '../../../firebase/firebase';
+import { auth } from '../../../firebase/firebase';
 
 const TabBar = () => {
+    const [authChecked, setAuthChecked] = useState(false);
+    const [user, setUser] = useState(null);
     const pathname = usePathname();
-    const auth = getAuth(firebase);
     const router = useRouter();
 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged(user => {
-            if (!user) {
-                router.push('/login');
-            }
+            setUser(user);
+            setAuthChecked(true);
         });
 
-        return () => {
-            unsubscribe();
-        };
+        return () => unsubscribe();
     }, []);
+
+    useEffect(() => {
+        if (authChecked && !user) {
+            router.push('/registration');
+        }
+    }, [authChecked, user, router]);
+
+    if (!authChecked || !user) {
+        return null;
+    }
 
     return (
         <nav className={styles.tabBar}>
@@ -50,6 +57,6 @@ const TabBar = () => {
             </Link>
         </nav>
     );
-}
+};
 
 export default TabBar; 

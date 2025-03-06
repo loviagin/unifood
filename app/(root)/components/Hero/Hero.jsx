@@ -34,12 +34,13 @@ const Hero = () => {
                 </div>
             </div>
 
-            <button className={styles.joinButton}>
-                <a href="/registration">
+            <a href="/registration">
+                <button className={styles.joinButton}>
                     Вступить
                     <span className={styles.plus}>+</span>
-                </a>
-            </button>
+
+                </button>
+            </a>
 
             <a href="/#more" className={styles.learnMore}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
