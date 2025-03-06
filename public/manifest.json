@@ -2,7 +2,7 @@
   "name": "Uni Food+",
   "short_name": "Uni Food+",
   "description": "Бонусная программа Uni Food+",
-  "start_url": "/",
+  "start_url": "/account",
   "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#B90778",
