@@ -1,21 +1,37 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '../../styles/Account.module.css';
 import TabBar from '../../components/TabBar/TabBar';
 
 const Profile = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [name, setName] = useState('');
-  const [birthDate, setBirthDate] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
+  const [userData, setUserData] = useState({
+    name: '',
+    birthDate: '',
+    phone: '',
+    email: ''
+  });
 
   const router = useRouter();
 
-  const  handleLogout = ()  => {
-    // Выход из аккаунта
-    console.log('logout');
+  useEffect(() => {
+    // Получаем данные пользователя при загрузке
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      const user = JSON.parse(currentUser);
+      setUserData({
+        name: user.name || '',
+        birthDate: user.birthDate || '',
+        phone: user.phone || '',
+        email: user.email || ''
+      });
+    } else {
+      router.push('/login');
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('currentUser');
     router.push('/');
   }
 
@@ -44,39 +60,36 @@ const Profile = () => {
               <label>Имя</label>
               <input
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                disabled={!isEditing}
-                placeholder="Введите имя"
+                value={userData.name}
+                disabled
+                placeholder="Не указано"
               />
             </div>
             <div className={styles.field}>
               <label>Дата рождения</label>
               <input
                 type="date"
-                value={birthDate}
-                onChange={(e) => setBirthDate(e.target.value)}
-                disabled={!isEditing}
+                value={userData.birthDate}
+                disabled
+                placeholder="Не указано"
               />
             </div>
             <div className={styles.field}>
               <label>Телефон</label>
               <input
                 type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                disabled={!isEditing}
-                placeholder="+7 (___) ___-__-__"
+                value={userData.phone}
+                disabled
+                placeholder="Не указано"
               />
             </div>
             <div className={styles.field}>
               <label>Email</label>
               <input
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={!isEditing}
-                placeholder="example@email.com"
+                value={userData.email}
+                disabled
+                placeholder="Не указано"
               />
             </div>
           </div>

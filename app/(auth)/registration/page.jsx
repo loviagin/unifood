@@ -4,10 +4,6 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { PatternFormat } from 'react-number-format';
-
-import { getAuth } from "firebase/auth";
-import { app } from '../../firebase/firebase';
-
 import React from 'react';
 
 const Registration = () => {
@@ -18,31 +14,19 @@ const Registration = () => {
   const [name, setName] = useState('');
   const [birthDate, setBirthDate] = useState('');
   const [error, setError] = useState('');
-  const [smsCode, setSmsCode] = useState('');
-  const [isCodeSent, setIsCodeSent] = useState(false);
 
-  const auth = getAuth(app);
   const router = useRouter();
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        router.push('/account');
-      }
-    });
-
-    return () => unsubscribe();
+    // Проверяем авторизацию при загрузке
+    const currentUser = localStorage.getItem('currentUser');
+    if (currentUser) {
+      router.push('/account');
+    }
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!name || !birthDate) {
-      setError('Пожалуйста, заполните все поля');
-      return;
-    }
-
-    router.push('/account');
+  const handlePhoneChange = ({ value }) => {
+    setPhone(value);
   };
 
   const handleAuthTypeChange = (type) => {
@@ -50,9 +34,51 @@ const Registration = () => {
     setError('');
     setEmail('');
     setPhone('');
-    setSmsCode('');
-    setIsCodeSent(false);
-    setVerificationId(null);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    try {
+      // Получаем существующих пользователей
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      
+      // Проверяем существование пользователя
+      const existingUser = users.find(user => 
+        (authType === 'email' && user.email === email) || 
+        (authType === 'phone' && user.phone === phone)
+      );
+
+      if (existingUser) {
+        setError('Пользователь с таким ' + (authType === 'email' ? 'email' : 'телефоном') + ' уже существует');
+        return;
+      }
+
+      // Создаем нового пользователя
+      const newUser = {
+        id: Date.now(),
+        name,
+        birthDate,
+        password,
+        bonuses: 0,
+        level: 'Новичок',
+        nextLevel: 1000,
+        progress: 0,
+        ...(authType === 'email' ? { email } : { phone })
+      };
+
+      // Сохраняем пользователя
+      users.push(newUser);
+      localStorage.setItem('users', JSON.stringify(users));
+      
+      // Устанавливаем текущего пользователя
+      localStorage.setItem('currentUser', JSON.stringify(newUser));
+
+      router.push('/account');
+    } catch (err) {
+      setError('Ошибка при регистрации');
+    }
   };
 
   return (
@@ -136,43 +162,26 @@ const Registration = () => {
                   value={phone}
                   onValueChange={handlePhoneChange}
                   customInput={input}
-                  disabled={isCodeSent}
                   placeholder="+7 (___) ___-__-__"
                   required
                 />
               </div>
-              {isCodeSent && (
-                <div className={styles.inputGroup}>
-                  <PatternFormat
-                    format="######"
-                    mask="_"
-                    value={smsCode}
-                    onValueChange={({ value }) => setSmsCode(value)}
-                    customInput={input}
-                    placeholder="Введите код из SMS"
-                    required
-                  />
-                </div>
-              )}
+              <div className={styles.inputGroup}>
+                <input
+                  type="password"
+                  placeholder="Пароль"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
             </>
           )}
 
           {error && <div className={styles.error}>{error}</div>}
 
-          {/* Контейнер для капчи */}
-          {/* {authType === 'phone' && !isCodeSent && (
-            <div id="recaptcha-container" className={styles.recaptchaContainer}></div>
-          )} */}
-
-          <button
-            id="sign-in-button"
-            type="submit"
-            className={styles.submitButton}
-          >
-            {authType === 'phone'
-              ? (isCodeSent ? 'Подтвердить' : 'Получить код')
-              : 'Создать аккаунт'
-            }
+          <button type="submit" className={styles.submitButton}>
+            Создать аккаунт
           </button>
         </form>
 
