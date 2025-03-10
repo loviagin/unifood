@@ -1,7 +1,6 @@
 'use client';
 
 import { LEVELS } from '../constants/levels';
-import { useState } from 'react';
 
 export default function LevelStory({ isOpen, onClose, currentLevel }) {
     const levels = Object.values(LEVELS);
