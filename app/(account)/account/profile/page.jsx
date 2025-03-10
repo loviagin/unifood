@@ -17,8 +17,19 @@ const Profile = () => {
   useEffect(() => {
     // Получаем данные пользователя при загрузке
     const currentUser = localStorage.getItem('currentUser');
+
+    const userName = localStorage.getItem('userName');
+    const userEmail = localStorage.getItem('userEmail');
+    const userPhone = localStorage.getItem('userPhone');
+    const userBirthDate = localStorage.getItem('userBirthDate');
+
     if (currentUser) {
-      const userId = JSON.parse(currentUser);
+      setUserData({
+        name: userName || '',
+        birthDate: userBirthDate || '',
+        phone: userPhone || '',
+        email: userEmail || ''
+      });
     } else {
       router.push('/login');
     }
@@ -26,6 +37,11 @@ const Profile = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userPhone');
+    localStorage.removeItem('userBirthDate');
+    
     router.push('/');
   }
 

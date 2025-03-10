@@ -54,8 +54,13 @@ const Login = () => {
       const data = await response.json();
 
       // Сохраняем id пользователя
-      if (data.userId) {
-        localStorage.setItem('currentUser', JSON.stringify(data.userId));
+      if (data.user) {
+        localStorage.setItem('currentUser', JSON.stringify(data.user._id));
+        localStorage.setItem('userName', data.user.name);
+        localStorage.setItem('userEmail', data.user.email);
+        // localStorage.setItem('userPhone', data.user.phone);
+        localStorage.setItem('userBirthDate', data.user.birthDate);
+
         router.push('/account');
       } else {
         setError('Ошибка при входе');

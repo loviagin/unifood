@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { PatternFormat } from 'react-number-format';
 import React from 'react';
-import { randomUUID } from 'crypto';
 
 const Registration = () => {
   const [authType, setAuthType] = useState('email');
@@ -70,6 +69,10 @@ const Registration = () => {
       // Сохраняем id пользователя, если он есть
       if (data.userId) {
         localStorage.setItem('currentUser', JSON.stringify(data.userId));
+        localStorage.setItem('userName', name);
+        localStorage.setItem('userEmail', email);
+        localStorage.setItem('userPhone', phone);
+        localStorage.setItem('userBirthDate', birthDate);
       }
 
       router.push('/account');

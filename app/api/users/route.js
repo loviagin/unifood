@@ -83,7 +83,7 @@ export async function GET(request) {
         }
 
         // Возвращаем ID найденного пользователя
-        return NextResponse.json({ message: "Пользователь найден", userId: user._id }, { status: 200 });
+        return NextResponse.json({ message: "Пользователь найден", user: user }, { status: 200 });
     } catch (error) {
         console.error("Ошибка:", error);
         return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });
