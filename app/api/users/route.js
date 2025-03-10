@@ -67,20 +67,21 @@ export async function POST(request) {
     }
 }
 
+
 export async function GET(request, { params }) {
-    await connectDB(); // Подключаемся к MongoDB
+    await connectDB();
 
     try {
         const { userId } = params;
-        console.log("🔍 Получаем данные для userId:", userId); // ✅ Логируем ID
+        console.log("🔍 Запрашиваемый userId:", userId);
 
         if (!userId) {
             return NextResponse.json({ error: "userId обязателен" }, { status: 400 });
         }
 
-        // Ищем данные пользователя в UserData
-        const userData = await UserData.findOne({ userId });
-        console.log("🔍 Найденные данные:", userData); // ✅ Логируем найденные данные
+        // Приводим userId к строке, так как в базе он сохранён как String
+        const userData = await UserData.findOne({ userId: String(userId) });
+        console.log("🔍 Найденные данные:", userData);
 
         if (!userData) {
             return NextResponse.json({ error: "Данные пользователя не найдены" }, { status: 404 });
