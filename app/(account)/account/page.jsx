@@ -15,29 +15,32 @@ const Account = () => {
 
   const router = useRouter();
 
-  useEffect(async () => {
-    // Проверяем авторизацию при загрузке
-    const userId = localStorage.getItem('currentUser');
-    if (!userId) {
-      router.push('/login');
-      return;
-    }
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userId = localStorage.getItem("currentUser");
+      if (!userId) {
+        router.push("/login");
+        return;
+      }
 
-    const response = await fetch(`/api/users/${userId}`);
+      try {
+        const response = await fetch(`/api/users/${userId}`);
+        console.log("Статус ответа:", response.status); // 🔍 Логируем код ошибки
 
-    if (!response.ok) {
-      console.error('Ошибка при загрузке данных пользователя');
-      return;
-    } else {
-      const data = await response.json();
+        if (!response.ok) throw new Error("Ошибка загрузки данных");
 
-      // Устанавливаем данные пользователя
-      setBonuses(data.bonuses);
-      setLevel(data.level);
-      setNextLevel(data.nextLevel);
-      setProgress(data.progress);
-      setQrValue(userId);
-    }
+        const data = await response.json();
+        setBonuses(data.bonuses);
+        setLevel(data.level);
+        setNextLevel(data.nextLevel);
+        setProgress(data.progress);
+        setQrValue(userId);
+      } catch (error) {
+        console.error("Ошибка при загрузке данных пользователя:", error);
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   // Для отладки
