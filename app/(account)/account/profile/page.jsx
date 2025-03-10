@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '../../styles/Account.module.css';
 import TabBar from '../../components/TabBar/TabBar';
+import TelegramWidget from '../../components/TelegramWidget';
 
 const Profile = () => {
   const [userData, setUserData] = useState({
@@ -11,6 +12,7 @@ const Profile = () => {
     phone: '',
     email: ''
   });
+  const [isSupportOpen, setIsSupportOpen] = useState(false);
 
   const router = useRouter();
 
@@ -104,6 +106,39 @@ const Profile = () => {
             </div>
           </div>
         </div>
+
+        <button 
+          className={styles.supportButton}
+          onClick={() => setIsSupportOpen(true)}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M21 11.5C21.0034 12.8199 20.6951 14.1219 20.1 15.3C19.3944 16.7118 18.3098 17.8992 16.9674 18.7293C15.6251 19.5594 14.0782 19.9994 12.5 20C11.1801 20.0035 9.87812 19.6951 8.7 19.1L3 21L4.9 15.3C4.30493 14.1219 3.99656 12.8199 4 11.5C4.00061 9.92179 4.44061 8.37488 5.27072 7.03258C6.10083 5.69028 7.28825 4.6056 8.7 3.90003C9.87812 3.30496 11.1801 2.99659 12.5 3.00003H13C15.0843 3.11502 17.053 3.99479 18.5291 5.47089C20.0052 6.94699 20.885 8.91568 21 11V11.5Z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          Поддержка
+        </button>
+
+        {isSupportOpen && (
+          <div className={styles.supportOverlay} onClick={(e) => {
+            if (e.target === e.currentTarget) setIsSupportOpen(false);
+          }}>
+            <div className={styles.supportModal}>
+              <div className={styles.supportHeader}>
+                <h3>Чат с поддержкой</h3>
+                <button 
+                  className={styles.closeButton}
+                  onClick={() => setIsSupportOpen(false)}
+                >
+                  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <div className={styles.supportContent}>
+                <TelegramWidget />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       <TabBar />
