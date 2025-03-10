@@ -40,8 +40,17 @@ const Login = () => {
     setError('');
 
     try {
-      // GET-запрос с email и password в query params
-      const response = await fetch(`/api/users?email=${email}&password=${password}`);
+      // POST-запрос с email и password
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: authType === 'email' ? email : '',
+          password
+        })
+      });
 
       // Обрабатываем ошибки
       if (!response.ok) {
