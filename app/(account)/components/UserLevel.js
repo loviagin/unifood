@@ -3,6 +3,7 @@
 import { LEVELS } from '../constants/levels';
 import { useState, useEffect } from 'react';
 import LevelStory from './LevelStory';
+import styles from './UserLevel.module.css';
 
 export default function UserLevel({ level, progress }) {
     const [currentLevel, setCurrentLevel] = useState(null);
@@ -32,39 +33,40 @@ export default function UserLevel({ level, progress }) {
     return (
         <>
             <div 
-                className="bg-white rounded-lg shadow p-4 mb-4 cursor-pointer transition hover:shadow-md"
+                className={styles.levelCard}
                 onClick={() => setIsStoryOpen(true)}
             >
-                <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="text-lg font-semibold">{currentLevel.name}</h3>
-                        <div className="flex gap-2">
-                            <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
+                <div className={styles.levelContent}>
+                    <div className={styles.levelHeader}>
+                        <h3 className={styles.levelName}>{currentLevel.name}</h3>
+                        <div className={styles.badges}>
+                            <span className={`${styles.badge} ${styles.discountBadge}`}>
                                 Скидка {currentLevel.discount}%
                             </span>
-                            <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
+                            <span className={`${styles.badge} ${styles.cashbackBadge}`}>
                                 Кешбек {getCashback(currentLevel.name)}%
                             </span>
                         </div>
                     </div>
-                    <div className="text-right">
-                        <p className="text-sm text-gray-600">Прогресс</p>
-                        <p className="font-semibold">{Math.round(progress)}%</p>
+                    
+                    <div className={styles.progressContainer}>
+                        <div className={styles.progressBar}>
+                            <div 
+                                className={styles.progressFill}
+                                style={{ width: `${progress}%` }}
+                            />
+                        </div>
+                        <span className={styles.progressText}>
+                            {Math.round(progress)}%
+                        </span>
                     </div>
+                    
+                    {progress < 100 && (
+                        <p className={styles.nextLevelText}>
+                            До следующего уровня: {Math.ceil((100 - progress) * currentLevel.nextLevel / 100)} ₽
+                        </p>
+                    )}
                 </div>
-                
-                <div className="w-full bg-gray-200 rounded-full h-2.5">
-                    <div 
-                        className="bg-blue-600 h-2.5 rounded-full transition-all duration-500" 
-                        style={{ width: `${progress}%` }}
-                    />
-                </div>
-                
-                {progress < 100 && (
-                    <p className="text-sm text-gray-600 mt-2">
-                        До следующего уровня: {Math.ceil((100 - progress) * currentLevel.nextLevel / 100)} ₽
-                    </p>
-                )}
             </div>
 
             <LevelStory 
