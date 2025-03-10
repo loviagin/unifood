@@ -1,6 +1,7 @@
 'use client';
 import styles from '../styles/Account.module.css';
 import TabBar from '../components/TabBar/TabBar';
+import UserLevel from '../components/UserLevel';
 import { useState, useEffect } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { useRouter } from 'next/navigation';
@@ -93,23 +94,12 @@ const Account = () => {
               <span className={styles.bonusesAmount}>{bonuses}</span>
               <span className={styles.bonusesLabel}>бонусов</span>
             </div>
-            <div className={styles.level}>
-              <span className={styles.currentLevel}>{level}</span>
-              <div className={styles.progressBar}>
-                <div
-                  className={styles.progressFill}
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-              <span className={styles.nextLevel}>
-                До следующего уровня {nextLevel - bonuses} ₽
-              </span>
-            </div>
+            <UserLevel level={level} progress={progress} />
           </div>
           <div className={styles.cardBottom}>
             <div className={styles.qrContainer}>
-              <div className={styles.qrCode}>
-                {qrValue ? (
+              {qrValue ? (
+                <div className={styles.qrCode}>
                   <QRCodeSVG
                     value={qrValue}
                     size={232}
@@ -119,15 +109,15 @@ const Account = () => {
                     fgColor="#B90778"
                     bgColor="transparent"
                   />
-                ) : (
-                  <div className={styles.qrLoading}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12"
-                        stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </div>
-                )}
-              </div>
+                </div>
+              ) : (
+                <div className={styles.qrLoading}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12"
+                      stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+              )}
               <span className={styles.qrLabel}>
                 Покажите QR-код на кассе для списания бонусов
               </span>
