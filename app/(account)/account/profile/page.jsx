@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '../../styles/Account.module.css';
 import TabBar from '../../components/TabBar/TabBar';
-import TelegramWidget from '../../components/TelegramWidget';
 
 const Profile = () => {
   const [userData, setUserData] = useState({
@@ -132,9 +131,6 @@ const Profile = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
-              </div>
-              <div className={styles.supportContent}>
-                <TelegramWidget />
               </div>
             </div>
           </div>
