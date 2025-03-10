@@ -42,33 +42,16 @@ const Registration = () => {
     setError('');
 
     try {
-      // Получаем существующих пользователей
-      // const users = JSON.parse(localStorage.getItem('users') || '[]');
-
-      // // Проверяем существование пользователя
-      // const existingUser = users.find(user =>
-      //   (authType === 'email' && user.email === email) ||
-      //   (authType === 'phone' && user.phone === phone)
-      // );
-
-      // if (existingUser) {
-      //   setError('Пользователь с таким ' + (authType === 'email' ? 'email' : 'телефоном') + ' уже существует');
-      //   return;
-      // }
-
       // Создаем нового пользователя
       const newUser = {
         name,
         birthDate,
         password,
-        ...(authType === 'email' ? { email } : { phone })
+        email: authType === 'email' ? email : undefined,
+        phone: authType === 'phone' ? phone : undefined
       };
 
-      // Сохраняем пользователя
-      // users.push(newUser);
-      // localStorage.setItem('users', JSON.stringify(users));
-
-      const respone = fetch('/api/users', {
+      const response = await fetch('/api/users', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -76,18 +59,22 @@ const Registration = () => {
         body: JSON.stringify(newUser)
       });
 
-      if (respone.status !== 201) {
+      if (!response.ok) {
         setError('Ошибка при регистрации');
         return;
-      } else {
-        const data = await respone.json();
-        console.log(data);
+      }
 
-        localStorage.setItem('currentUser', JSON.stringify(data['id']));
+      const data = await response.json();
+      console.log(data);
+
+      // Сохраняем id пользователя, если он есть
+      if (data.user && data.user._id) {
+        localStorage.setItem('currentUser', JSON.stringify(data.user._id));
       }
 
       router.push('/account');
     } catch (err) {
+      console.error('Ошибка при регистрации:', err);
       setError('Ошибка при регистрации');
     }
   };
