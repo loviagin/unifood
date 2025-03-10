@@ -77,11 +77,11 @@ export async function POST(request) {
 
             return NextResponse.json({ 
                 message: "Заказ создан",
-                orderId: order._id,
-                newBonuses: userData.bonuses,
+                orderId: order._id.toString(),
+                newBonuses: userData.bonuses.toString(),
                 newLevel: userData.level,
-                newProgress: userData.progress,
-                discount: currentLevel.discount
+                newProgress: userData.progress.toString(),
+                discount: currentLevel.discount.toString()
             }, { status: 201 });
 
         } catch (error) {
