@@ -31,7 +31,7 @@
 .title {
     font-size: 24px;
     font-weight: 700;
-    color: #B90778;
+    color: #00A389;
 }
 
 .subtitle {
@@ -85,9 +85,9 @@
 }
 
 .levelIconActive {
-    border-color: #B90778;
-    background: rgba(185, 7, 120, 0.1);
-    color: #B90778;
+    border-color: #00A389;
+    background: rgba(0, 163, 137, 0.1);
+    color: #00A389;
 }
 
 .levelIconInactive {
@@ -122,10 +122,6 @@
     color: white;
 }
 
-.discountBadge {
-    background: #B90778;
-}
-
 .cashbackBadge {
     background: #00A389;
 }
@@ -145,7 +141,7 @@
 }
 
 .levelLineActive {
-    background: #B90778;
+    background: #00A389;
 }
 
 .levelLineInactive {

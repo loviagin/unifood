@@ -40,9 +40,6 @@ export default function UserLevel({ level, progress }) {
                     <div className={styles.levelHeader}>
                         <h3 className={styles.levelName}>{currentLevel.name}</h3>
                         <div className={styles.badges}>
-                            <span className={`${styles.badge} ${styles.discountBadge}`}>
-                                Скидка {currentLevel.discount}%
-                            </span>
                             <span className={`${styles.badge} ${styles.cashbackBadge}`}>
                                 Кешбек {getCashback(currentLevel.name)}%
                             </span>

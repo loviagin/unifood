@@ -2,19 +2,16 @@ export const LEVELS = {
     NOVICE: {
         name: "Новичок",
         nextLevel: 1000,
-        discount: 5,
         requiredAmount: 1000
     },
     REGULAR: {
         name: "Постоянный клиент",
         nextLevel: 2000,
-        discount: 10,
         requiredAmount: 2000
     },
     VIP: {
         name: "VIP",
         nextLevel: 5000,
-        discount: 15,
         requiredAmount: 5000
     }
 };

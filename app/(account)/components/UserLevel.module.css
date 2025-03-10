@@ -39,10 +39,6 @@
     color: white;
 }
 
-.discountBadge {
-    background: #B90778;
-}
-
 .cashbackBadge {
     background: #00A389;
 }
@@ -57,14 +53,14 @@
 .progressBar {
     flex: 1;
     height: 4px;
-    background: rgba(185, 7, 120, 0.1);
+    background: rgba(0, 163, 137, 0.1);
     border-radius: 100px;
     overflow: hidden;
 }
 
 .progressFill {
     height: 100%;
-    background: #B90778;
+    background: #00A389;
     border-radius: 100px;
     transition: width 0.7s ease-out;
 }
