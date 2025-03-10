@@ -77,6 +77,12 @@
   color: rgba(0, 0, 0, 0.8);
 }
 
+.notAvailable {
+  color: rgba(165, 1, 1, 0.7);
+  font-size: 14px;
+  margin-left: 8px;
+}
+
 .input:hover,
 .inputGroup input:hover {
   border-color: rgba(185, 7, 120, 0.3);

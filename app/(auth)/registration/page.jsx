@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { PatternFormat } from 'react-number-format';
 import React from 'react';
+import { randomUUID } from 'crypto';
 
 const Registration = () => {
   const [authType, setAuthType] = useState('email');
@@ -42,38 +43,48 @@ const Registration = () => {
 
     try {
       // Получаем существующих пользователей
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      
-      // Проверяем существование пользователя
-      const existingUser = users.find(user => 
-        (authType === 'email' && user.email === email) || 
-        (authType === 'phone' && user.phone === phone)
-      );
+      // const users = JSON.parse(localStorage.getItem('users') || '[]');
 
-      if (existingUser) {
-        setError('Пользователь с таким ' + (authType === 'email' ? 'email' : 'телефоном') + ' уже существует');
-        return;
-      }
+      // // Проверяем существование пользователя
+      // const existingUser = users.find(user =>
+      //   (authType === 'email' && user.email === email) ||
+      //   (authType === 'phone' && user.phone === phone)
+      // );
+
+      // if (existingUser) {
+      //   setError('Пользователь с таким ' + (authType === 'email' ? 'email' : 'телефоном') + ' уже существует');
+      //   return;
+      // }
 
       // Создаем нового пользователя
       const newUser = {
-        id: Date.now(),
         name,
         birthDate,
         password,
-        bonuses: 0,
-        level: 'Новичок',
-        nextLevel: 1000,
-        progress: 0,
         ...(authType === 'email' ? { email } : { phone })
       };
 
       // Сохраняем пользователя
-      users.push(newUser);
-      localStorage.setItem('users', JSON.stringify(users));
-      
-      // Устанавливаем текущего пользователя
-      localStorage.setItem('currentUser', JSON.stringify(newUser));
+      // users.push(newUser);
+      // localStorage.setItem('users', JSON.stringify(users));
+
+      const respone = fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newUser)
+      });
+
+      if (respone.status !== 201) {
+        setError('Ошибка при регистрации');
+        return;
+      } else {
+        const data = await respone.json();
+        console.log(data);
+
+        localStorage.setItem('currentUser', JSON.stringify(data['id']));
+      }
 
       router.push('/account');
     } catch (err) {
@@ -183,9 +194,14 @@ const Registration = () => {
 
           {error && <div className={styles.error}>{error}</div>}
 
-          <button type="submit" className={styles.submitButton}>
-            Создать аккаунт
-          </button>
+          {authType === 'email' ? (
+            <button type="submit" className={styles.submitButton}>
+              Создать аккаунт
+            </button>
+          ) : (
+            <p className={styles.notAvailable}>Данный метод регистрации в разработке</p>
+          )}
+
         </form>
 
         <div className={styles.authLink}>

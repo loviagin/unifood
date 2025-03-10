@@ -42,11 +42,11 @@ const Login = () => {
     try {
       // Получаем пользователей
       const users = JSON.parse(localStorage.getItem('users') || '[]');
-      
+
       // Ищем пользователя
-      const user = users.find(user => 
-        ((authType === 'email' && user.email === email) || 
-         (authType === 'phone' && user.phone === phone)) && 
+      const user = users.find(user =>
+        ((authType === 'email' && user.email === email) ||
+          (authType === 'phone' && user.phone === phone)) &&
         user.password === password
       );
 
@@ -130,9 +130,14 @@ const Login = () => {
 
           {error && <div className={styles.error}>{error}</div>}
 
-          <button type="submit" className={styles.submitButton}>
-            Войти
-          </button>
+          {authType === 'email' ? (
+            <button type="submit" className={styles.submitButton}>
+              Войти
+            </button>
+          ) : (
+            <p className={styles.notAvailable}>Данный метод входа в разработке</p>
+          )} 
+
         </form>
 
         <div className={styles.authLink}>
