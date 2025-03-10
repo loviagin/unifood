@@ -22,11 +22,16 @@ export default function UserLevel({ level, progress }) {
                 onClick={() => setIsStoryOpen(true)}
             >
                 <div className="flex items-center justify-between mb-2">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                         <h3 className="text-lg font-semibold">{currentLevel.name}</h3>
-                        <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
-                            Скидка {currentLevel.discount}%
-                        </span>
+                        <div className="flex gap-2">
+                            <span className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">
+                                Скидка {currentLevel.discount}%
+                            </span>
+                            <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
+                                Кешбек 5%
+                            </span>
+                        </div>
                     </div>
                     <div className="text-right">
                         <p className="text-sm text-gray-600">Прогресс</p>
