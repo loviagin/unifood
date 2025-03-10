@@ -4,19 +4,21 @@ import connectDB from "../db";
 import User from "../../models/User";
 import UserData from "../../models/UserData";
 import bcrypt from "bcryptjs";
+import Order from "../../models/Order";
+import { Types } from "mongoose";
 
 export async function POST(request) {
-    await connectDB(); // Подключаемся к MongoDB
+    await connectDB();
 
     try {
         const contentType = request.headers.get("content-type");
 
         let body;
         if (contentType.includes("application/json")) {
-            body = await request.json(); // Если JSON
+            body = await request.json();
         } else if (contentType.includes("multipart/form-data")) {
             const formData = await request.formData();
-            body = Object.fromEntries(formData); // Если form-data
+            body = Object.fromEntries(formData);
         } else {
             return NextResponse.json({ error: "Unsupported Content-Type" }, { status: 400 });
         }
@@ -24,23 +26,51 @@ export async function POST(request) {
         const { userId } = body;
 
         if (!userId) {
-            return NextResponse.json({ error: "Все поля обязательны" }, { status: 400 });
+            return NextResponse.json({ error: "userId обязателен" }, { status: 400 });
         }
 
         try {
-            const ordersData = await Order.find({ userId });
-            console.log("🔍 Найденные данные:", userData);
+            const orders = await Order.find({ 
+                userId: Types.ObjectId.createFromHexString(userId) 
+            }).sort({ date: -1 });
 
-            if (!ordersData) {
-                return NextResponse.json({ error: "Данные не найдены" }, { status: 404 });
-            }
-
-            return NextResponse.json({
-                ordersData
-            }, { status: 200 });
+            return NextResponse.json(orders, { status: 200 });
 
         } catch (error) {
             console.error("Ошибка при обработке userId:", error);
             return NextResponse.json({ error: "Некорректный формат userId" }, { status: 400 });
         }
+    } catch (error) {
+        console.error("Ошибка при загрузке заказов:", error);
+        return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });
     }
+}
+
+export async function GET(request) {
+    await connectDB();
+
+    try {
+        const { searchParams } = new URL(request.url);
+        const userId = searchParams.get('userId');
+
+        if (!userId) {
+            return NextResponse.json({ error: "userId обязателен" }, { status: 400 });
+        }
+
+        try {
+            const orders = await Order.find({
+                userId: Types.ObjectId.createFromHexString(userId)
+            }).sort({ date: -1 });
+
+            return NextResponse.json(orders, { status: 200 });
+
+        } catch (error) {
+            console.error("Ошибка при обработке userId:", error);
+            return NextResponse.json({ error: "Некорректный формат userId" }, { status: 400 });
+        }
+
+    } catch (error) {
+        console.error("Ошибка при загрузке заказов:", error);
+        return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });
+    }
+}

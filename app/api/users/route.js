@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import connectDB from "../db";
 import User from "../../models/User";
 import UserData from "../../models/UserData";
+import Order from "../../models/Order";
 import bcrypt from "bcryptjs";
 
 export async function POST(request) {
