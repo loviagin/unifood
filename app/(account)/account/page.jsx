@@ -54,11 +54,11 @@ const Account = () => {
           body: JSON.stringify({ userId }),
         });
 
-        console.log("Статус ответа:", ordersData.status); // 🔍 Логируем код ошибки
+        console.log("Статус ответа:", ordersData.status);
         if (!ordersData.ok) throw new Error("Ошибка загрузки данных");
 
         const orders = await ordersData.json();
-        setHistory(orders.ordersData);
+        setHistory(orders.history);
       } catch (error) {
         console.error("Ошибка при загрузке данных пользователя:", error);
       }
@@ -192,17 +192,17 @@ const Account = () => {
             </div>
             <div className={styles.history}>
               {history.map(item => (
-                <div key={item.id} className={styles.historyItem}>
+                <div key={item._id} className={styles.historyItem}>
                   <div className={styles.historyInfo}>
-                    <div className={styles.historyDate}>{item.date}</div>
+                    <div className={styles.historyDate}>{new Date(item.date).toLocaleDateString()}</div>
                     <div className={styles.historyTitle}>{item.title}</div>
                     <div className={styles.historyDetails}>{item.details}</div>
-                    <div className={`${styles.historyBonus} ${item.bonus < 0 ? styles.spent : ''}`}>
-                      {item.bonus > 0 ? `+${item.bonus} баллов` : `Списано ${Math.abs(item.bonus)} баллов`}
+                    <div className={`${styles.historyBonus} ${item.bonuses < 0 ? styles.spent : ''}`}>
+                      {item.bonuses > 0 ? `+${item.bonuses} баллов` : `Списано ${Math.abs(item.bonuses)} баллов`}
                     </div>
                   </div>
-                  <div className={`${styles.historyAmount} ${item.bonus < 0 ? styles.spent : ''}`}>
-                    {item.bonus > 0 ? '+' : '-'}{item.amount} ₽
+                  <div className={`${styles.historyAmount} ${item.bonuses < 0 ? styles.spent : ''}`}>
+                    {item.bonuses > 0 ? '+' : '-'}{item.amount} ₽
                   </div>
                 </div>
               ))}
