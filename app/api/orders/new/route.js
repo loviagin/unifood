@@ -10,7 +10,11 @@ export async function POST(request) {
 
     try {
         const body = await request.json();
-        const { userId, title, details, amount, bonuses, type, date } = body;
+        const { userId, title, details, type, date } = body;
+        
+        // Преобразуем amount и bonuses в целые числа
+        const amount = Math.round(Number(body.amount));
+        const bonuses = Math.round(Number(body.bonuses));
 
         if (!userId || !title || amount === undefined || bonuses === undefined || !type) {
             return NextResponse.json({ error: "Не все обязательные поля заполнены" }, { status: 400 });
