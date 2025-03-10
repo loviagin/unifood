@@ -12,6 +12,7 @@ const Account = () => {
   const [progress, setProgress] = useState(0);
   const [qrValue, setQrValue] = useState('');
   const [expandedSection, setExpandedSection] = useState(null);
+  const [history, setHistory] = useState([]);
 
   const router = useRouter();
 
@@ -23,9 +24,11 @@ const Account = () => {
         return;
       }
 
+      setQrValue(userId);
+
       try {
         console.log("Загружаем данные для пользователя с ID:", userId);
-        
+
         const response = await fetch(`/api/users/${userId}`, {
           method: "GET",
           headers: {
@@ -42,7 +45,20 @@ const Account = () => {
         setLevel(data.level);
         setNextLevel(data.nextLevel);
         setProgress(data.progress);
-        setQrValue(userId);
+
+        const ordersData = await fetch(`/api/orders`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId }),
+        });
+
+        console.log("Статус ответа:", ordersData.status); // 🔍 Логируем код ошибки
+        if (!ordersData.ok) throw new Error("Ошибка загрузки данных");
+
+        const orders = await ordersData.json();
+        setHistory(orders.ordersData);
       } catch (error) {
         console.error("Ошибка при загрузке данных пользователя:", error);
       }
@@ -55,19 +71,6 @@ const Account = () => {
   useEffect(() => {
     console.log('Current QR Value:', qrValue);
   }, [qrValue]);
-
-  // Демо-данные для истории
-  const history = [
-    {
-      id: 1,
-      date: '12 марта 2024',
-      title: 'нач',
-      details: 'Капучино x2, Круассан',
-      amount: 50,
-      bonus: 50,
-      type: 'earn'
-    }
-  ];
 
   const toggleSection = (section) => {
     if (expandedSection === section) {

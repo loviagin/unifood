@@ -54,11 +54,22 @@ export async function POST(request) {
             bonuses: 50,
             level: "Новичок",
             nextLevel: 1000,
-            progress: 10
+            progress: 5
+        });
+
+        const order = new Order({
+            userId: newUser._id,
+            title: "Приветственный бонус",
+            details: "",
+            amount: 0,
+            bonuses: 50,
+            type: "earn",
+            date: new Date()
         });
 
         await newUser.save();
         await newUserData.save();
+        await order.save();
 
         return NextResponse.json({ message: "Пользователь создан", userId: newUser._id }, { status: 201 });
     } catch (error) {
@@ -66,44 +77,3 @@ export async function POST(request) {
         return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });
     }
 }
-
-
-// export async function GET(request) {
-//     await connectDB();
-
-//     try {
-//         const { searchParams } = new URL(request.url);
-//         const userId = searchParams.get('userId');
-//         console.log("🔍 Запрашиваемый userId:", userId);
-
-//         if (!userId) {
-//             return NextResponse.json({ error: "userId обязателен" }, { status: 400 });
-//         }
-
-//         try {
-//             const userData = await UserData.findOne({ 
-//                 userId: new mongoose.Types.ObjectId(userId) 
-//             });
-//             console.log("🔍 Найденные данные:", userData);
-
-//             if (!userData) {
-//                 return NextResponse.json({ error: "Данные пользователя не найдены" }, { status: 404 });
-//             }
-
-//             return NextResponse.json({
-//                 bonuses: userData.bonuses,
-//                 level: userData.level,
-//                 nextLevel: userData.nextLevel,
-//                 progress: userData.progress
-//             }, { status: 200 });
-
-//         } catch (error) {
-//             console.error("Ошибка при обработке userId:", error);
-//             return NextResponse.json({ error: "Некорректный формат userId" }, { status: 400 });
-//         }
-
-//     } catch (error) {
-//         console.error("Ошибка при загрузке данных пользователя:", error);
-//         return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });
-//     }
-// }
