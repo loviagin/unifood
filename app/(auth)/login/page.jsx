@@ -56,9 +56,6 @@ const Login = () => {
         setError('Неверный пароль');
         return;
       } else if (response.status === 200) {
-        setError('Ошибка при входе');
-        return;
-      } else {
         const userId = await response.json();
 
         // Устанавливаем текущего пользователя
