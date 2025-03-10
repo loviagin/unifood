@@ -75,13 +75,23 @@ export async function POST(request) {
             // Получаем актуальную информацию об уровне
             const currentLevel = getLevelByName(userData.level);
 
-            return NextResponse.json({ 
+            // Форматируем ответ точно как ожидает iOS приложение
+            const response = {
                 message: "Заказ создан",
                 orderId: order._id.toString(),
-                newBonuses: userData.bonuses.toString(),
+                newBonuses: Math.round(userData.bonuses).toString(),
                 newLevel: userData.level,
-                newProgress: userData.progress.toString()
-            }, { status: 201 });
+                newProgress: Math.round(userData.progress).toString()
+            };
+
+            console.log("Отправляем ответ:", response); // Для отладки
+
+            return NextResponse.json(response, { 
+                status: 201,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
         } catch (error) {
             console.error("Ошибка при обработке данных:", error);
             return NextResponse.json({ error: "Некорректный формат данных" }, { status: 400 });
