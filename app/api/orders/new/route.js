@@ -78,14 +78,10 @@ export async function POST(request) {
             return NextResponse.json({ 
                 message: "Заказ создан",
                 orderId: order._id.toString(),
-                newBonusesString: userData.bonuses.toString(),
+                newBonuses: userData.bonuses.toString(),
                 newLevel: userData.level,
-                newProgressString: userData.progress.toString()
+                newProgress: userData.progress.toString()
             }, { status: 201 });
-
-            /*
-            */
-
         } catch (error) {
             console.error("Ошибка при обработке данных:", error);
             return NextResponse.json({ error: "Некорректный формат данных" }, { status: 400 });
