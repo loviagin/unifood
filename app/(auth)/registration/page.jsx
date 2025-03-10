@@ -68,7 +68,7 @@ const Registration = () => {
 
       // Сохраняем id пользователя, если он есть
       if (data.userId) {
-        localStorage.setItem('currentUser', data.userId);
+        localStorage.setItem('currentUser', data.userId.replace(/"/g, ""));
         localStorage.setItem('userName', name);
         localStorage.setItem('userEmail', email);
         localStorage.setItem('userPhone', phone);

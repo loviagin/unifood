@@ -64,7 +64,7 @@ const Login = () => {
 
       // Сохраняем id пользователя
       if (data.user) {
-        localStorage.setItem('currentUser', JSON.stringify(data.user._id));
+        localStorage.setItem('currentUser', data.user._id.replace(/"/g, ""));
         localStorage.setItem('userName', data.user.name);
         localStorage.setItem('userEmail', data.user.email);
         // localStorage.setItem('userPhone', data.user.phone);

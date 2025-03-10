@@ -80,7 +80,7 @@ export async function GET(request, { params }) {
         }
 
         // Приводим userId к строке, так как в базе он сохранён как String
-        const userData = await UserData.findOne({ userId: String(userId) });
+        const userData = await UserData.findOne({ userId: new mongoose.Types.ObjectId(userId.replace(/"/g, "")) });
         console.log("🔍 Найденные данные:", userData);
 
         if (!userData) {
