@@ -8,20 +8,6 @@ export default function LevelStory({ isOpen, onClose, currentLevel }) {
     const levels = Object.values(LEVELS);
     const currentLevelIndex = levels.findIndex(level => level.name === currentLevel);
 
-    // Рассчитываем кешбэк в зависимости от уровня
-    const getCashback = (level) => {
-        switch (level) {
-            case 'Новичок':
-                return 3;
-            case 'Постоянный клиент':
-                return 5;
-            case 'VIP':
-                return 7;
-            default:
-                return 3;
-        }
-    };
-
     const handleOverlayClick = useCallback((e) => {
         if (e.target === e.currentTarget) {
             onClose();
@@ -65,7 +51,7 @@ export default function LevelStory({ isOpen, onClose, currentLevel }) {
                                     <div className={styles.levelName}>{level.name}</div>
                                     <div className={styles.levelBadges}>
                                         <span className={`${styles.levelBadge} ${index <= currentLevelIndex ? styles.cashbackBadge : styles.inactiveBadge}`}>
-                                            Кешбек {getCashback(level.name)}%
+                                            Кешбек {level.cashback}%
                                         </span>
                                     </div>
                                     <p className={styles.levelRequirement}>

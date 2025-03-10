@@ -16,20 +16,6 @@ export default function UserLevel({ level, progress }) {
 
     if (!currentLevel) return null;
 
-    // Рассчитываем кешбэк в зависимости от уровня
-    const getCashback = (level) => {
-        switch (level) {
-            case 'Новичок':
-                return 3;
-            case 'Постоянный клиент':
-                return 5;
-            case 'VIP':
-                return 7;
-            default:
-                return 3;
-        }
-    };
-
     return (
         <>
             <div 
@@ -41,7 +27,7 @@ export default function UserLevel({ level, progress }) {
                         <h3 className={styles.levelName}>{currentLevel.name}</h3>
                         <div className={styles.badges}>
                             <span className={`${styles.badge} ${styles.cashbackBadge}`}>
-                                Кешбек {getCashback(currentLevel.name)}%
+                                Кешбек {currentLevel.cashback}%
                             </span>
                         </div>
                     </div>

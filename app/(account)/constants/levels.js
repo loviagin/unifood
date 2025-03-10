@@ -2,17 +2,20 @@ export const LEVELS = {
     NOVICE: {
         name: "Новичок",
         nextLevel: 1000,
-        requiredAmount: 1000
+        requiredAmount: 1000,
+        cashback: 3
     },
     REGULAR: {
         name: "Постоянный клиент",
         nextLevel: 2000,
-        requiredAmount: 2000
+        requiredAmount: 2000,
+        cashback: 5
     },
     VIP: {
         name: "VIP",
         nextLevel: 5000,
-        requiredAmount: 5000
+        requiredAmount: 5000,
+        cashback: 7
     }
 };
 
