@@ -3,6 +3,7 @@ import connectDB from "../../db";
 import Order from "../../../models/Order";
 import UserData from "../../../models/UserData";
 import { Types } from "mongoose";
+import { LEVELS, getLevelByName, getNextLevel } from "../../../constants/levels";
 
 export async function POST(request) {
     await connectDB();
@@ -44,20 +45,22 @@ export async function POST(request) {
             // Обновляем количество бонусов
             userData.bonuses += bonuses;
 
-            // Обновляем прогресс
+            // Обновляем прогресс и уровень
             if (type === "earn") {
-                userData.progress = Math.min(100, userData.progress + (amount / userData.nextLevel * 100));
-                
-                // Если достигли 100%, повышаем уровень
-                if (userData.progress >= 100) {
-                    if (userData.level === "Новичок") {
-                        userData.level = "Постоянный клиент";
-                        userData.nextLevel = 2000;
-                    } else if (userData.level === "Постоянный клиент") {
-                        userData.level = "VIP";
-                        userData.nextLevel = 5000;
+                const currentLevel = getLevelByName(userData.level);
+                const nextLevelInfo = getNextLevel(userData.level);
+
+                if (nextLevelInfo) {
+                    // Обновляем прогресс
+                    const progressIncrement = (amount / nextLevelInfo.requiredAmount) * 100;
+                    userData.progress = Math.min(100, userData.progress + progressIncrement);
+
+                    // Если достигли 100%, повышаем уровень
+                    if (userData.progress >= 100 && nextLevelInfo) {
+                        userData.level = nextLevelInfo.name;
+                        userData.nextLevel = nextLevelInfo.nextLevel;
+                        userData.progress = 0;
                     }
-                    userData.progress = 0;
                 }
             }
 
@@ -65,12 +68,16 @@ export async function POST(request) {
             await order.save();
             await userData.save();
 
+            // Получаем актуальную информацию об уровне
+            const currentLevel = getLevelByName(userData.level);
+
             return NextResponse.json({ 
                 message: "Заказ создан",
                 orderId: order._id,
                 newBonuses: userData.bonuses,
                 newLevel: userData.level,
-                newProgress: userData.progress
+                newProgress: userData.progress,
+                discount: currentLevel.discount
             }, { status: 201 });
 
         } catch (error) {
