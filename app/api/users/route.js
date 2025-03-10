@@ -49,7 +49,16 @@ export async function POST(request) {
             birthDate: parsedBirthDate
         });
 
+        const newUserData = new UserData({
+            userId: newUser._id,
+            bonuses: 50,
+            level: "Новичок",
+            nextLevel: 1000,
+            progress: 10
+        });
+
         await newUser.save();
+        await newUserData.save();
 
         return NextResponse.json({ message: "Пользователь создан", userId: newUser._id }, { status: 201 });
     } catch (error) {
