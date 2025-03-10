@@ -25,7 +25,7 @@ const Account = () => {
 
       try {
         console.log("Загружаем данные для пользователя с ID:", userId);
-        const response = await fetch(`https://unifood.space/api/users/${userId}`);
+        const response = await fetch(`/api/users/${userId}`);
         console.log("Статус ответа:", response.status); // 🔍 Логируем код ошибки
 
         if (!response.ok) throw new Error("Ошибка загрузки данных");
