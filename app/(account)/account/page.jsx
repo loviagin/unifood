@@ -25,13 +25,13 @@ const Account = () => {
       setNextLevel(1000);
       setProgress(5);
       setQrValue(userId);
-    } else
-    {
-      localStorage.setItem('currentUser', 'user123');
-    }
+    } 
     // else {
-    //   router.push('/login');
+    //   localStorage.setItem('currentUser', 'user123');
     // }
+    else {
+      router.push('/login');
+    }
   }, []);
 
   // Для отладки
