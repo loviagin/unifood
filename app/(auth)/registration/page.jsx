@@ -69,7 +69,7 @@ const Registration = () => {
 
       // Сохраняем id пользователя, если он есть
       if (data.user && data.user._id) {
-        localStorage.setItem('currentUser', JSON.stringify(data.user._id));
+        localStorage.setItem('currentUser', JSON.stringify(data.userId));
       }
 
       router.push('/account');
