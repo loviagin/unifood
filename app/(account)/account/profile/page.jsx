@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '../../styles/Account.module.css';
@@ -48,7 +49,7 @@ const Profile = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.header}>
+      <div className={styles.header} role="banner">
         <h1>Профиль</h1>
         <button onClick={handleLogout} className={styles.button}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -68,8 +69,9 @@ const Profile = () => {
 
           <div className={styles.fields}>
             <div className={styles.field}>
-              <label>Имя</label>
+              <label htmlFor="name">Имя</label>
               <input
+                id="name"
                 type="text"
                 value={userData.name}
                 disabled
@@ -86,8 +88,9 @@ const Profile = () => {
               />
             </div> */}
             <div className={styles.field}>
-              <label>Телефон</label>
+              <label htmlFor="phone">Телефон</label>
               <input
+                id="phone"
                 type="tel"
                 value={userData.phone}
                 disabled
@@ -95,8 +98,9 @@ const Profile = () => {
               />
             </div>
             <div className={styles.field}>
-              <label>Email</label>
+              <label htmlFor="email">Email</label>
               <input
+                id="email"
                 type="email"
                 value={userData.email}
                 disabled
@@ -117,9 +121,13 @@ const Profile = () => {
         </button>
 
         {isSupportOpen && (
-          <div className={styles.supportOverlay} onClick={(e) => {
-            if (e.target === e.currentTarget) setIsSupportOpen(false);
-          }}>
+          <div 
+            className={styles.supportOverlay} 
+            data-testid="support-overlay"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setIsSupportOpen(false);
+            }}
+          >
             <div className={styles.supportModal}>
               <div className={styles.supportHeader}>
                 <h3>Поддержка прогуливала пары ;)</h3>

@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { LEVELS } from '../constants/levels';
 import { useState } from 'react';
 
