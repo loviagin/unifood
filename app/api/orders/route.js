@@ -30,6 +30,7 @@ export async function POST(request) {
             const orders = await Order.find({ 
                 userId: Types.ObjectId.createFromHexString(userId) 
             }).sort({ date: -1 });
+            console.log("Загружены заказы для userId:", orders);
 
             return NextResponse.json({ history: orders || [] }, { status: 200 });
 

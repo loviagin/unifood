@@ -75,7 +75,7 @@ const Profile = () => {
                 placeholder="Не указано"
               />
             </div>
-            <div className={styles.field}>
+            {/* <div className={styles.field}>
               <label>Дата рождения</label>
               <input
                 type="date"
@@ -83,7 +83,7 @@ const Profile = () => {
                 disabled
                 placeholder="Не указано"
               />
-            </div>
+            </div> */}
             <div className={styles.field}>
               <label>Телефон</label>
               <input
