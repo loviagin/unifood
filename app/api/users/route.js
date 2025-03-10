@@ -4,6 +4,7 @@ import connectDB from "../db";
 import User from "../../models/User";
 import UserData from "../../models/UserData";
 import bcrypt from "bcryptjs";
+import mongoose from "mongoose";
 
 export async function POST(request) {
     await connectDB(); // Подключаемся к MongoDB
@@ -68,31 +69,39 @@ export async function POST(request) {
 }
 
 
-export async function GET(request, { params }) {
+export async function GET(request) {
     await connectDB();
 
     try {
-        const { userId } = params;
+        const { searchParams } = new URL(request.url);
+        const userId = searchParams.get('userId');
         console.log("🔍 Запрашиваемый userId:", userId);
 
         if (!userId) {
             return NextResponse.json({ error: "userId обязателен" }, { status: 400 });
         }
 
-        // Приводим userId к строке, так как в базе он сохранён как String
-        const userData = await UserData.findOne({ userId: new mongoose.Types.ObjectId(userId.replace(/"/g, "")) });
-        console.log("🔍 Найденные данные:", userData);
+        try {
+            const userData = await UserData.findOne({ 
+                userId: new mongoose.Types.ObjectId(userId) 
+            });
+            console.log("🔍 Найденные данные:", userData);
 
-        if (!userData) {
-            return NextResponse.json({ error: "Данные пользователя не найдены" }, { status: 404 });
+            if (!userData) {
+                return NextResponse.json({ error: "Данные пользователя не найдены" }, { status: 404 });
+            }
+
+            return NextResponse.json({
+                bonuses: userData.bonuses,
+                level: userData.level,
+                nextLevel: userData.nextLevel,
+                progress: userData.progress
+            }, { status: 200 });
+
+        } catch (error) {
+            console.error("Ошибка при обработке userId:", error);
+            return NextResponse.json({ error: "Некорректный формат userId" }, { status: 400 });
         }
-
-        return NextResponse.json({
-            bonuses: userData.bonuses,
-            level: userData.level,
-            nextLevel: userData.nextLevel,
-            progress: userData.progress
-        }, { status: 200 });
 
     } catch (error) {
         console.error("Ошибка при загрузке данных пользователя:", error);
