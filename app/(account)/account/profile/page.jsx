@@ -122,7 +122,7 @@ const Profile = () => {
           }}>
             <div className={styles.supportModal}>
               <div className={styles.supportHeader}>
-                <h3>Чат с поддержкой</h3>
+                <h3>Поддержка прогуливала пары ;)</h3>
                 <button 
                   className={styles.closeButton}
                   onClick={() => setIsSupportOpen(false)}
