@@ -18,13 +18,7 @@ const Profile = () => {
     // Получаем данные пользователя при загрузке
     const currentUser = localStorage.getItem('currentUser');
     if (currentUser) {
-      const user = JSON.parse(currentUser);
-      setUserData({
-        name: user.name || '',
-        birthDate: user.birthDate || '',
-        phone: user.phone || '',
-        email: user.email || ''
-      });
+      const userId = JSON.parse(currentUser);
     } else {
       router.push('/login');
     }
