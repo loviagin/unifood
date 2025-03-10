@@ -71,7 +71,8 @@ export async function GET(request, { params }) {
     await connectDB(); // Подключаемся к MongoDB
 
     try {
-        const { userId } = params; // Получаем userId из URL
+        const { userId } = params;
+        console.log("🔍 Получаем данные для userId:", userId); // ✅ Логируем ID
 
         if (!userId) {
             return NextResponse.json({ error: "userId обязателен" }, { status: 400 });
@@ -79,11 +80,12 @@ export async function GET(request, { params }) {
 
         // Ищем данные пользователя в UserData
         const userData = await UserData.findOne({ userId });
+        console.log("🔍 Найденные данные:", userData); // ✅ Логируем найденные данные
+
         if (!userData) {
             return NextResponse.json({ error: "Данные пользователя не найдены" }, { status: 404 });
         }
 
-        // Возвращаем найденные данные
         return NextResponse.json({
             bonuses: userData.bonuses,
             level: userData.level,
