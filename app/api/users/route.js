@@ -57,35 +57,35 @@ export async function POST(request) {
     }
 }
 
-export async function GET(request) {
-    await connectDB(); // Подключаемся к MongoDB
+// export async function GET(request) {
+//     await connectDB(); // Подключаемся к MongoDB
 
-    try {
-        // Получаем email и password из query params
-        const { searchParams } = new URL(request.url);
-        const email = searchParams.get("email");
-        const password = searchParams.get("password");
+//     try {
+//         // Получаем email и password из query params
+//         const { searchParams } = new URL(request.url);
+//         const email = searchParams.get("email");
+//         const password = searchParams.get("password");
 
-        if (!email || !password) {
-            return NextResponse.json({ error: "Все поля обязательны" }, { status: 400 });
-        }
+//         if (!email || !password) {
+//             return NextResponse.json({ error: "Все поля обязательны" }, { status: 400 });
+//         }
 
-        // Ищем пользователя в базе
-        const user = await User.findOne({ email });
-        if (!user) {
-            return NextResponse.json({ error: "Пользователь не найден" }, { status: 404 });
-        }
+//         // Ищем пользователя в базе
+//         const user = await User.findOne({ email });
+//         if (!user) {
+//             return NextResponse.json({ error: "Пользователь не найден" }, { status: 404 });
+//         }
 
-        // Проверяем пароль (он должен быть хеширован при регистрации)
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return NextResponse.json({ error: "Неверный пароль" }, { status: 401 });
-        }
+//         // Проверяем пароль (он должен быть хеширован при регистрации)
+//         const isMatch = await bcrypt.compare(password, user.password);
+//         if (!isMatch) {
+//             return NextResponse.json({ error: "Неверный пароль" }, { status: 401 });
+//         }
 
-        // Возвращаем ID найденного пользователя
-        return NextResponse.json({ message: "Пользователь найден", user: user }, { status: 200 });
-    } catch (error) {
-        console.error("Ошибка:", error);
-        return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });
-    }
-}
+//         // Возвращаем ID найденного пользователя
+//         return NextResponse.json({ message: "Пользователь найден", user: user }, { status: 200 });
+//     } catch (error) {
+//         console.error("Ошибка:", error);
+//         return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });
+//     }
+// }

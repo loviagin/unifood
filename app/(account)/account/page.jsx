@@ -17,18 +17,21 @@ const Account = () => {
 
   useEffect(() => {
     // Проверяем авторизацию при загрузке
-    const currentUser = localStorage.getItem('currentUser');
-    if (currentUser) {
-      const user = JSON.parse(currentUser);
+    const userId = localStorage.getItem('currentUser');
+    if (userId) {
       // Устанавливаем данные пользователя
-      setBonuses(user.bonuses || 0);
-      setLevel(user.level || 'Новичок');
-      setNextLevel(user.nextLevel || 1000);
-      setProgress(user.progress || 0);
-      setQrValue(user.id?.toString() || '');
-    } else {
-      router.push('/login');
+      setBonuses(100);
+      setLevel('Новичок');
+      setNextLevel(1000);
+      setProgress(5);
+      setQrValue(userId);
+    } else
+    {
+      localStorage.setItem('currentUser', 'user123');
     }
+    // else {
+    //   router.push('/login');
+    // }
   }, []);
 
   // Для отладки
@@ -41,22 +44,12 @@ const Account = () => {
     {
       id: 1,
       date: '12 марта 2024',
-      title: 'Верхняя кофейня',
+      title: 'нач',
       details: 'Капучино x2, Круассан',
-      amount: 560,
-      bonus: -50,
-      type: 'spent'
-    },
-    {
-      id: 2,
-      date: '10 марта 2024',
-      title: 'Нижняя кофейня',
-      details: 'Американо, Сэндвич',
-      amount: 420,
-      bonus: 29,
-      type: 'spent'
-    },
-    // ... другие записи
+      amount: 50,
+      bonus: 50,
+      type: 'earn'
+    }
   ];
 
   const toggleSection = (section) => {
