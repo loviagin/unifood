@@ -40,27 +40,25 @@ const Login = () => {
     setError('');
 
     try {
-      // GET with searchParams email and passwors
+      // GET-запрос с email и password в query params
       const response = await fetch(`/api/users?email=${email}&password=${password}`);
 
-      if (response.status === 404) {
-        setError('Пользователь не найден');
+      // Обрабатываем ошибки
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(errorData.error || 'Ошибка при входе');
         return;
-      } else if (response.status === 400) {
-        setError('Все поля обязательны');
-        return;
-      } else if (response.status === 500) {
-        setError('Ошибка сервера');
-        return;
-      } else if (response.status === 401) {
-        setError('Неверный пароль');
-        return;
-      } else if (response.status === 200) {
-        const userId = await response.json();
+      }
 
-        // Устанавливаем текущего пользователя
-        localStorage.setItem('currentUser', JSON.stringify(userId));
+      // Получаем данные пользователя
+      const data = await response.json();
+
+      // Сохраняем id пользователя
+      if (data.userId) {
+        localStorage.setItem('currentUser', JSON.stringify(data.userId));
         router.push('/account');
+      } else {
+        setError('Ошибка при входе');
       }
     } catch (err) {
       setError('Ошибка при входе');
