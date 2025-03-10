@@ -7,7 +7,7 @@ export async function GET(request, { params }) {
     await connectDB();
 
     try {
-        const { userId } = params;
+        const { userId } = await params;
         console.log("🔍 Запрашиваемый userId:", userId);
 
         if (!userId) {
