@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "../db";
 import User from "../../models/User";
+import bcrypt from "bcryptjs";
 
 export async function POST(request) {
     await connectDB(); // Подключаемся к MongoDB
@@ -11,10 +12,10 @@ export async function POST(request) {
 
         let body;
         if (contentType.includes("application/json")) {
-            body = await request.json(); // ✅ Если JSON
+            body = await request.json(); // Если JSON
         } else if (contentType.includes("multipart/form-data")) {
             const formData = await request.formData();
-            body = Object.fromEntries(formData); // ✅ Если form-data
+            body = Object.fromEntries(formData); // Если form-data
         } else {
             return NextResponse.json({ error: "Unsupported Content-Type" }, { status: 400 });
         }
@@ -25,17 +26,31 @@ export async function POST(request) {
             return NextResponse.json({ error: "Все поля обязательны" }, { status: 400 });
         }
 
-        // ✅ Парсим дату рождения в формат Date
         const parsedBirthDate = new Date(birthDate);
         if (isNaN(parsedBirthDate)) {
             return NextResponse.json({ error: "Некорректная дата" }, { status: 400 });
         }
 
-        // ✅ Создаём пользователя (MongoDB сам создаст `_id`)
-        const newUser = new User({ name, email, password, birthDate: parsedBirthDate });
+        // Проверяем, существует ли уже пользователь с таким email
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return NextResponse.json({ error: "Пользователь с таким email уже существует" }, { status: 409 });
+        }
+
+        // Хешируем пароль перед сохранением
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Создаём нового пользователя
+        const newUser = new User({
+            name,
+            email,
+            password: hashedPassword, // Сохранённый пароль теперь хеширован
+            birthDate: parsedBirthDate
+        });
+
         await newUser.save();
 
-        return NextResponse.json({ message: "Пользователь создан", user: newUser }, { status: 201 });
+        return NextResponse.json({ message: "Пользователь создан", userId: newUser._id }, { status: 201 });
     } catch (error) {
         console.error("Ошибка:", error);
         return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });
@@ -46,20 +61,31 @@ export async function GET(request) {
     await connectDB(); // Подключаемся к MongoDB
 
     try {
-        // const { name, email, password, birthdate } = await request.json();
+        // Получаем email и password из query params
+        const { searchParams } = new URL(request.url);
+        const email = searchParams.get("email");
+        const password = searchParams.get("password");
 
-        // if (!name || !email || !password || !birthdate) {
-        //     return NextResponse.json({ error: "Все поля обязательны" }, { status: 400 });
-        // }
+        if (!email || !password) {
+            return NextResponse.json({ error: "Все поля обязательны" }, { status: 400 });
+        }
 
-        // const newUser = new User({ name, email, password, birthdate });
-        // await newUser.save();
+        // Ищем пользователя в базе
+        const user = await User.findOne({ email });
+        if (!user) {
+            return NextResponse.json({ error: "Пользователь не найден" }, { status: 404 });
+        }
 
-        console.log("GET");
+        // Проверяем пароль (он должен быть хеширован при регистрации)
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return NextResponse.json({ error: "Неверный пароль" }, { status: 401 });
+        }
 
-        return NextResponse.json({ message: "User created" }, { status: 201 });
+        // Возвращаем ID найденного пользователя
+        return NextResponse.json({ message: "Пользователь найден", userId: user._id }, { status: 200 });
     } catch (error) {
         console.error("Ошибка:", error);
-        return NextResponse.json({ error: "Server error" }, { status: 500 });
+        return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });
     }
 }

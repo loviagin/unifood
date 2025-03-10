@@ -40,24 +40,31 @@ const Login = () => {
     setError('');
 
     try {
-      // Получаем пользователей
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      // GET with searchParams email and passwors
+      const response = await fetch(`/api/users?email=${email}&password=${password}`);
 
-      // Ищем пользователя
-      const user = users.find(user =>
-        ((authType === 'email' && user.email === email) ||
-          (authType === 'phone' && user.phone === phone)) &&
-        user.password === password
-      );
-
-      if (!user) {
-        setError('Неверный ' + (authType === 'email' ? 'email' : 'телефон') + ' или пароль');
+      if (response.status === 404) {
+        setError('Пользователь не найден');
         return;
-      }
+      } else if (response.status === 400) {
+        setError('Все поля обязательны');
+        return;
+      } else if (response.status === 500) {
+        setError('Ошибка сервера');
+        return;
+      } else if (response.status === 401) {
+        setError('Неверный пароль');
+        return;
+      } else if (response.status === 200) {
+        setError('Ошибка при входе');
+        return;
+      } else {
+        const userId = await response.json();
 
-      // Устанавливаем текущего пользователя
-      localStorage.setItem('currentUser', JSON.stringify(user));
-      router.push('/account');
+        // Устанавливаем текущего пользователя
+        localStorage.setItem('currentUser', JSON.stringify(userId));
+        router.push('/account');
+      }
     } catch (err) {
       setError('Ошибка при входе');
     }
@@ -136,7 +143,7 @@ const Login = () => {
             </button>
           ) : (
             <p className={styles.notAvailable}>Данный метод входа в разработке</p>
-          )} 
+          )}
 
         </form>
 
