@@ -68,7 +68,7 @@ const Registration = () => {
       console.log(data);
 
       // Сохраняем id пользователя, если он есть
-      if (data.user && data.user._id) {
+      if (data.userId) {
         localStorage.setItem('currentUser', JSON.stringify(data.userId));
       }
 
