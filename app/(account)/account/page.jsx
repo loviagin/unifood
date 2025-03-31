@@ -192,7 +192,7 @@ const Account = () => {
                     </div>
                   </div>
                   <div className={`${styles.historyAmount} ${item.bonuses < 0 ? styles.spent : ''}`}>
-                    {item.bonuses > 0 ? '+' : '-'}{item.amount} ₽
+                    {'-'}{item.amount} ₽
                   </div>
                 </div>
               ))}

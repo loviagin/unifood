@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { connectDB } from '@/app/api/db';
+import connectDB from '@/app/api/db';
 
 const JWT_SECRET = process.env.JWT_SECRET
 
