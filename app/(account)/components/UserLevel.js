@@ -8,7 +8,7 @@ import styles from './UserLevel.module.css';
 export default function UserLevel({ level, progress }) {
     const [currentLevel, setCurrentLevel] = useState(null);
     const [isStoryOpen, setIsStoryOpen] = useState(false);
-    
+
     useEffect(() => {
         const levelInfo = Object.values(LEVELS).find(l => l.name === level);
         setCurrentLevel(levelInfo);
@@ -18,7 +18,7 @@ export default function UserLevel({ level, progress }) {
 
     return (
         <>
-            <div 
+            <div
                 className={styles.levelCard}
                 onClick={() => setIsStoryOpen(true)}
             >
@@ -31,10 +31,10 @@ export default function UserLevel({ level, progress }) {
                             </span>
                         </div>
                     </div>
-                    
+
                     <div className={styles.progressContainer}>
                         <div className={styles.progressBar}>
-                            <div 
+                            <div
                                 className={styles.progressFill}
                                 style={{ width: `${progress}%` }}
                             />
@@ -43,8 +43,8 @@ export default function UserLevel({ level, progress }) {
                             {Math.round(progress)}%
                         </span>
                     </div>
-                    
-                    {progress < 100 && (
+
+                    {progress < 100 && currentLevel.nextLevel > 0 && (
                         <p className={styles.nextLevelText}>
                             До следующего уровня: {Math.ceil((100 - progress) * currentLevel.nextLevel / 100)} ₽
                         </p>
@@ -52,7 +52,7 @@ export default function UserLevel({ level, progress }) {
                 </div>
             </div>
 
-            <LevelStory 
+            <LevelStory
                 isOpen={isStoryOpen}
                 onClose={() => setIsStoryOpen(false)}
                 currentLevel={level}

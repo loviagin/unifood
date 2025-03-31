@@ -13,7 +13,7 @@ export const LEVELS = {
     },
     VIP: {
         name: "VIP",
-        nextLevel: 5000,
+        nextLevel: 0,
         discount: 15,
         requiredAmount: 5000
     }

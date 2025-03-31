@@ -11,7 +11,10 @@ const Profile = () => {
     phone: '',
     email: ''
   });
+  const [isEditing, setIsEditing] = useState(false);
   const [isSupportOpen, setIsSupportOpen] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const router = useRouter();
 
@@ -46,6 +49,61 @@ const Profile = () => {
     router.push('/');
   }
 
+  const handleEdit = () => {
+    setIsEditing(true);
+    setError('');
+    setSuccess('');
+  }
+
+  const handleSave = async () => {
+    try {
+      const token = localStorage.getItem('currentUser');
+      const response = await fetch('/api/user/update', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name: userData.name,
+          phone: userData.phone,
+          email: userData.email
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Ошибка при обновлении данных');
+      }
+
+      // Обновляем локальное хранилище
+      localStorage.setItem('userName', userData.name);
+      localStorage.setItem('userEmail', userData.email);
+      localStorage.setItem('userPhone', userData.phone);
+
+      setIsEditing(false);
+      setSuccess('Данные успешно обновлены');
+      setError('');
+    } catch (err) {
+      setError(err.message);
+      setSuccess('');
+    }
+  }
+
+  const handleCancel = () => {
+    // Восстанавливаем исходные данные
+    setUserData({
+      name: localStorage.getItem('userName') || '',
+      birthDate: localStorage.getItem('userBirthDate') || '',
+      phone: localStorage.getItem('userPhone') || '',
+      email: localStorage.getItem('userEmail') || ''
+    });
+    setIsEditing(false);
+    setError('');
+    setSuccess('');
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -64,7 +122,24 @@ const Profile = () => {
         <div className={styles.card}>
           <div className={styles.cardHeader}>
             <h2>Личные данные</h2>
+            {!isEditing ? (
+              <button onClick={handleEdit} className={styles.editButton}>
+                Редактировать
+              </button>
+            ) : (
+              <div className={styles.editActions}>
+                <button onClick={handleSave} className={styles.saveButton}>
+                  Сохранить
+                </button>
+                <button onClick={handleCancel} className={styles.cancelButton}>
+                  Отмена
+                </button>
+              </div>
+            )}
           </div>
+
+          {error && <div className={styles.error}>{error}</div>}
+          {success && <div className={styles.success}>{success}</div>}
 
           <div className={styles.fields}>
             <div className={styles.field}>
@@ -72,7 +147,8 @@ const Profile = () => {
               <input
                 type="text"
                 value={userData.name}
-                disabled
+                onChange={(e) => setUserData({...userData, name: e.target.value})}
+                disabled={!isEditing}
                 placeholder="Не указано"
               />
             </div>
@@ -90,7 +166,8 @@ const Profile = () => {
               <input
                 type="tel"
                 value={userData.phone}
-                disabled
+                onChange={(e) => setUserData({...userData, phone: e.target.value})}
+                disabled={!isEditing}
                 placeholder="Не указано"
               />
             </div>
@@ -99,7 +176,8 @@ const Profile = () => {
               <input
                 type="email"
                 value={userData.email}
-                disabled
+                onChange={(e) => setUserData({...userData, email: e.target.value})}
+                disabled={!isEditing}
                 placeholder="Не указано"
               />
             </div>
