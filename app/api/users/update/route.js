@@ -1,6 +1,20 @@
 import { NextResponse } from 'next/server';
-import { connectToDatabase } from '@/lib/mongodb';
-import { verifyToken } from '@/lib/jwt';
+import { connectDB } from '@/app/api/db';
+
+const JWT_SECRET = process.env.JWT_SECRET
+
+function verifyToken(req) {
+    const authHeader = req.headers.get('authorization')
+    if (!authHeader || !authHeader.startsWith('Bearer ')) return false
+
+    const token = authHeader.split(' ')[1]
+    try {
+        jwt.verify(token, JWT_SECRET)
+        return true
+    } catch {
+        return false
+    }
+}
 
 export async function PUT(request) {
   try {
@@ -16,25 +30,32 @@ export async function PUT(request) {
     }
 
     const { name, phone, email } = await request.json();
-    const { db } = await connectToDatabase();
     
-    const result = await db.collection('users').updateOne(
-      { _id: decoded.userId },
+    await connectDB();
+    
+    const user = await User.findByIdAndUpdate(
+      decoded.userId,
       { 
-        $set: { 
-          name,
-          phone,
-          email,
-          updatedAt: new Date()
-        }
-      }
+        name,
+        phone,
+        email,
+        updatedAt: new Date()
+      },
+      { new: true }
     );
 
-    if (result.matchedCount === 0) {
+    if (!user) {
       return NextResponse.json({ error: 'Пользователь не найден' }, { status: 404 });
     }
 
-    return NextResponse.json({ message: 'Данные успешно обновлены' });
+    return NextResponse.json({ 
+      message: 'Данные успешно обновлены',
+      user: {
+        name: user.name,
+        phone: user.phone,
+        email: user.email
+      }
+    });
   } catch (error) {
     console.error('Ошибка при обновлении данных пользователя:', error);
     return NextResponse.json({ error: 'Внутренняя ошибка сервера' }, { status: 500 });
