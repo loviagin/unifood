@@ -73,7 +73,6 @@ const Menu = () => {
                 <p>{item.description}</p>
                 <div className={styles.menuItemPrice}>
                   <span>{item.price} ₽</span>
-                  <button className={styles.addButton}>+</button>
                 </div>
               </div>
             </div>
