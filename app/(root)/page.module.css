@@ -3,18 +3,26 @@
   margin: 0;
   font-family: 'Inter', sans-serif;
   min-height: 100vh;
-  position: relative;
-  overflow: visible;
+  background: linear-gradient(to bottom, #ffffff, #f8f9fa);
 }
 
-.page::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(50% 50% at 50% 50%, rgba(185, 7, 120, 0.15) 0%, rgba(185, 7, 120, 0) 100%);
-  pointer-events: none;
-  z-index: 1;
+.main {
+  width: 100%;
+  overflow: hidden;
+}
+
+.contentWrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+@media (max-width: 768px) {
+  .contentWrapper {
+    padding: 0 1rem;
+    gap: 2rem;
+  }
 }
