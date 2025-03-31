@@ -47,7 +47,6 @@ export default function UserLevel({ level, progress }) {
                     {currentLevel.nextLevel > 0 && progress < 100 && currentLevel.name !== "VIP" && (
                         <p className={styles.nextLevelText}>
                             До следующего уровня: {Math.ceil(currentLevel.requiredAmount - (progress * currentLevel.requiredAmount / 100))} ₽
-                            <b>{currentLevel.nextLevel}</b>
                         </p>
                     )}
                 </div>
