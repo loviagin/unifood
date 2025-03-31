@@ -46,7 +46,8 @@ export default function UserLevel({ level, progress }) {
 
                     {currentLevel.nextLevel > 0 && (
                         <p className={styles.nextLevelText}>
-                            До следующего уровня: {Math.ceil((100 - progress) * currentLevel.nextLevel / 100)} ₽
+                            До следующего уровня: {Math.ceil(currentLevel.requiredAmount - (progress * currentLevel.requiredAmount / 100))} ₽
+                            <b>{currentLevel.nextLevel}</b>
                         </p>
                     )}
                 </div>
