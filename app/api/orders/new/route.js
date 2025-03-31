@@ -56,7 +56,7 @@ export async function POST(request) {
 
                 if (nextLevelInfo) {
                     // Обновляем прогресс
-                    const progressIncrement = (amount / nextLevelInfo.requiredAmount) * 100;
+                    const progressIncrement = (amount / currentLevel.requiredAmount) * 100;
                     userData.progress = Math.min(100, userData.progress + progressIncrement);
 
                     // Если достигли 100%, повышаем уровень
