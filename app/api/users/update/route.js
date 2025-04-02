@@ -4,12 +4,12 @@ import User from '@/app/models/User'; // Changed from named import to default im
 
 export async function PUT(request) {
   try {
-    const { name, phone, email, userId } = await request.json(); // Добавлен userId
+    const { name, phone, email } = await request.json();
 
     await connectDB();
 
     const user = await User.findByIdAndUpdate(
-      userId, // Используем userId, а не несуществующий decoded.userId
+      decoded.userId,
       { name, phone, email, updatedAt: new Date() },
       { new: true }
     );
