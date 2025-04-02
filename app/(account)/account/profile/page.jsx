@@ -34,8 +34,6 @@ const Profile = () => {
         phone: userPhone || '',
         email: userEmail || ''
       });
-    } else {
-      router.push('/login');
     }
   }, []);
 
@@ -45,29 +43,55 @@ const Profile = () => {
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userPhone');
     localStorage.removeItem('userBirthDate');
-    
-    router.push('/');
-  }
+  };
 
   const handleEdit = () => {
     setIsEditing(true);
     setError('');
     setSuccess('');
-  }
+  };
 
   const handleSave = async () => {
+    // Валидация обязательных полей
+    const trimmedName = userData.name.trim();
+    const trimmedEmail = userData.email.trim();
+    const trimmedPhone = userData.phone.trim();
+    
+    if (!trimmedName) {
+      setError('Имя обязательно для заполнения');
+      return;
+    }
+
+    if (!trimmedEmail && !trimmedPhone) {
+      setError('Необходимо указать email или телефон');
+      return;
+    }
+    
+    // Простейшие проверки формата email и телефона
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Пример простого шаблона для телефона: допускается знак + в начале и от 10 до 15 цифр
+    const phoneRegex = /^\+?[0-9]{10,15}$/;
+
+    if (trimmedEmail && !emailRegex.test(trimmedEmail)) {
+      setError('Некорректный формат email');
+      return;
+    }
+    if (trimmedPhone && !phoneRegex.test(trimmedPhone)) {
+      setError('Некорректный формат телефона');
+      return;
+    }
+
     try {
       const token = localStorage.getItem('currentUser');
-      const response = await fetch('/api/user/update', {
+      const response = await fetch('/api/users/update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          name: userData.name,
-          phone: userData.phone,
-          email: userData.email
+          name: trimmedName,
+          phone: trimmedPhone,
+          email: trimmedEmail
         })
       });
 
@@ -78,18 +102,18 @@ const Profile = () => {
       }
 
       // Обновляем локальное хранилище
-      localStorage.setItem('userName', userData.name);
-      localStorage.setItem('userEmail', userData.email);
-      localStorage.setItem('userPhone', userData.phone);
+      localStorage.setItem('userName', trimmedName);
+      localStorage.setItem('userEmail', trimmedEmail);
+      localStorage.setItem('userPhone', trimmedPhone);
 
       setIsEditing(false);
-      setSuccess('Данные успешно обновлены');
+      setSuccess('Данные сохранены');
       setError('');
     } catch (err) {
       setError(err.message);
       setSuccess('');
     }
-  }
+  };
 
   const handleCancel = () => {
     // Восстанавливаем исходные данные
@@ -102,7 +126,7 @@ const Profile = () => {
     setIsEditing(false);
     setError('');
     setSuccess('');
-  }
+  };
 
   return (
     <div className={styles.container}>
@@ -152,15 +176,6 @@ const Profile = () => {
                 placeholder="Не указано"
               />
             </div>
-            {/* <div className={styles.field}>
-              <label>Дата рождения</label>
-              <input
-                type="date"
-                value={userData.birthDate}
-                disabled
-                placeholder="Не указано"
-              />
-            </div> */}
             <div className={styles.field}>
               <label>Телефон</label>
               <input
