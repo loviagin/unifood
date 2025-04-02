@@ -84,20 +84,24 @@
     padding: 8px 16px;
     border-radius: 100px;
     transition: all 0.3s ease;
+    -webkit-text-fill-color: #ab046e;
 }
 
 .editButton:hover {
     background: rgba(255, 0, 162, 0.795);
+    -webkit-text-fill-color: #ab046e;
 }
 
 .saveButton {
     background: linear-gradient(135deg, #B90778 0%, #FF4DA8 100%);
-    color: white;
+    color: #ab046e;
+    -webkit-text-fill-color: rgb(139, 11, 11);
 }
 
 .saveButton:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(185, 7, 120, 0.2);
+    box-shadow: 0 4px 12px rgba(185, 7, 120, 0.508);
+    -webkit-text-fill-color: rgb(160, 6, 6);
 }
 
 .fields {
