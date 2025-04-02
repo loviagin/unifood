@@ -77,7 +77,7 @@
     gap: 8px;
     background: none;
     border: none;
-    color: #B90778;
+    color: #c1077d;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -87,7 +87,7 @@
 }
 
 .editButton:hover {
-    background: rgba(185, 7, 120, 0.1);
+    background: rgba(255, 0, 162, 0.1);
 }
 
 .saveButton {
