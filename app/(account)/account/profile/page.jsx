@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '../../styles/Account.module.css';
 import TabBar from '../../components/TabBar/TabBar';
+import SupportChat from '../../../components/SupportChat';
 
 const Profile = () => {
   const [userData, setUserData] = useState({
@@ -209,25 +210,11 @@ const Profile = () => {
           Поддержка
         </button>
 
-        {isSupportOpen && (
-          <div className={styles.supportOverlay} onClick={(e) => {
-            if (e.target === e.currentTarget) setIsSupportOpen(false);
-          }}>
-            <div className={styles.supportModal}>
-              <div className={styles.supportHeader}>
-                <h3>Чат с поддержкой</h3>
-                <button 
-                  className={styles.closeButton}
-                  onClick={() => setIsSupportOpen(false)}
-                >
-                  <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        <SupportChat 
+          isOpenExternal={isSupportOpen}
+          onCloseExternal={() => setIsSupportOpen(false)}
+          hideButton={true}
+        />
       </div>
 
       <TabBar />
