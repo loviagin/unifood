@@ -1,0 +1,547 @@
+.container {
+  min-height: 100vh;
+  background: #FAFAFA;
+}
+
+.header {
+  padding: 20px 16px;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header h1 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.content {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Общие стили для карточек */
+.card {
+  background: white;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.cardHeader h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+/* Стили для кнопок */
+.button {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(0, 0, 0, 0.7);
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  color: #B90778;
+  background: rgba(185, 7, 120, 0.1);
+}
+
+.button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.primaryButton {
+  composes: button;
+  background: linear-gradient(135deg, #B90778 0%, #FF4DA8 100%);
+  color: white;
+}
+
+.primaryButton:hover {
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(185, 7, 120, 0.2);
+}
+
+/* Стили для полей ввода */
+.field {
+  margin-bottom: 16px;
+}
+
+.field label {
+  display: block;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 8px;
+}
+
+.field input {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid rgba(185, 7, 120, 0.1);
+  border-radius: 12px;
+  font-size: 16px;
+  background: white;
+  color: rgba(0, 0, 0, 0.8);
+  transition: all 0.3s ease;
+}
+
+.field input:hover {
+  border-color: rgba(185, 7, 120, 0.3);
+}
+
+.field input:focus {
+  outline: none;
+  border-color: #B90778;
+  box-shadow: 0 0 0 4px rgba(185, 7, 120, 0.1);
+}
+
+.field input:disabled {
+  background: rgba(0, 0, 0, 0.05);
+  cursor: not-allowed;
+}
+
+/* Стили для карточки с бонусами */
+.cardTop {
+  display: flex;
+  gap: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.bonuses {
+  display: flex;
+  flex-direction: column;
+}
+
+.bonusesAmount {
+  font-size: 32px;
+  font-weight: bold;
+  color: #B90778;
+}
+
+.bonusesLabel {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.level {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.currentLevel {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.progressBar {
+  height: 4px;
+  background: rgba(185, 7, 120, 0.1);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(135deg, #B90778 0%, #FF4DA8 100%);
+  border-radius: 100px;
+  transition: width 0.3s ease;
+}
+
+.nextLevel {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+/* Стили для QR кода */
+.cardBottom {
+  padding-top: 24px;
+  margin: 0 -24px -24px;
+  background: rgba(185, 7, 120, 0.02);
+  border-radius: 0 0 24px 24px;
+}
+
+.qrContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px 24px;
+}
+
+.qrCode {
+  width: 100%;
+  max-width: 280px;
+  aspect-ratio: 1;
+  color: #B90778;
+  padding: 24px;
+  background: rgba(185, 7, 120, 0.05);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qrCodeSvg {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.qrLabel {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  max-width: 200px;
+}
+
+/* Стили для информационных карточек */
+.infoCards {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.infoRow {
+  display: flex;
+  gap: 12px;
+}
+
+.infoRow .card {
+  flex: 1;
+  margin-bottom: 0;
+  padding: 16px;
+}
+
+.infoRow .cardHeader {
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.infoRow .cardHeader h3 {
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.infoIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(185, 7, 120, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #B90778;
+  flex-shrink: 0;
+}
+
+.infoIcon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Обновляем стили для истории */
+.history {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-bottom: 80px; /* Отступ для TabBar */
+}
+
+.historyItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.historyBonus {
+  font-size: 12px;
+  color: #B90778;
+  margin-top: 4px;
+}
+
+.historyBonus.spent {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .field input {
+    padding: 14px;
+    font-size: 14px;
+  }
+
+  .cardTop {
+    padding-bottom: 20px;
+    gap: 20px;
+  }
+
+  .bonusesAmount {
+    font-size: 28px;
+  }
+
+  .cardBottom {
+    margin: 0 -20px -20px;
+    padding-top: 20px;
+  }
+
+  .qrContainer {
+    padding: 0 20px 20px;
+  }
+
+  .qrCode {
+    padding: 20px;
+    max-width: none;
+  }
+
+  .card {
+    margin-bottom: 16px;
+  }
+
+  .infoRow {
+    flex-direction: row;
+  }
+
+  .infoRow .card {
+    padding: 12px;
+  }
+
+  .infoIcon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .infoIcon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .infoRow h3 {
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .infoRow .card {
+    padding: 12px;
+  }
+
+  .accordionContent.expanded {
+    padding: 12px;
+  }
+}
+
+/* Стили для аккордеона */
+.accordion {
+  border: none;
+  width: 100%;
+  text-align: left;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: inherit;
+}
+
+.accordion p {
+  margin: 0;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.accordion svg.arrow {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.accordion.expanded svg.arrow {
+  transform: rotate(180deg);
+}
+
+.accordionContent {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  padding: 0 16px;
+}
+
+.accordionContent.expanded {
+  max-height: 100px;
+  opacity: 1;
+  padding: 16px;
+  margin-top: 8px;
+}
+
+/* Стили для истории покупок */
+.history {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.historyInfo {
+  flex: 1;
+}
+
+.historyDate {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 4px;
+}
+
+.historyTitle {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.historyDetails {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.historyAmount {
+  font-size: 16px;
+  font-weight: 500;
+  color: #B90778;
+  white-space: nowrap;
+  margin-left: 16px;
+}
+
+.historyAmount.spent {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.supportButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: #00A389;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 16px;
+  width: 100%;
+}
+
+.supportButton:hover {
+  background-color: #008975;
+}
+
+.supportButton svg {
+  width: 24px;
+  height: 24px;
+}
+
+.supportOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.supportModal {
+  background-color: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.supportHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.supportHeader h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.closeButton:hover {
+  background-color: #f5f5f5;
+}
+
+.supportContent {
+  padding: 24px;
+  overflow-y: auto;
+  flex: 1;
+} 

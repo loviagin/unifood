@@ -1,0 +1,77 @@
+.levelCard {
+    flex: 1;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.levelCard:hover {
+    opacity: 0.9;
+}
+
+.levelContent {
+    display: flex;
+    flex-direction: column;
+}
+
+.levelHeader {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.levelName {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.badges {
+    display: flex;
+    gap: 6px;
+}
+
+.badge {
+    padding: 4px 8px;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 100px;
+    color: white;
+}
+
+.cashbackBadge {
+    background: #00A389;
+}
+
+.progressContainer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.progressBar {
+    flex: 1;
+    height: 4px;
+    background: rgba(0, 163, 137, 0.1);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: #00A389;
+    border-radius: 100px;
+    transition: width 0.7s ease-out;
+}
+
+.progressText {
+    font-size: 14px;
+    font-weight: 500;
+    color: #666;
+}
+
+.nextLevelText {
+    font-size: 14px;
+    color: #666;
+} 

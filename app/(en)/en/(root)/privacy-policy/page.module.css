@@ -1,0 +1,19 @@
+.main {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    margin-top: 100px;
+    margin-bottom: 20px;
+    padding: 0 max(16px, calc((100% - 1200px) / 2)); /* Центрирование с максимальной шириной */
+    gap: 16px;
+}
+
+.main p {
+    line-height: 140%;
+}
+
+@media (max-width: 768px) {
+    .main h1 {
+        font-size: 22px;
+    }
+}

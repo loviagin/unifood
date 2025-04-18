@@ -1,0 +1,263 @@
+.container {
+    min-height: 100vh;
+    background: linear-gradient(165deg, #F8E9FF 0%, #E9DFFF 100%);
+    font-family: 'Inter', sans-serif;
+}
+
+.header {
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    background: linear-gradient(135deg, #000 0%, #B90778 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: opacity 0.3s ease;
+}
+
+.logo:hover {
+    opacity: 0.8;
+}
+
+.plus {
+    color: #B90778;
+    margin-left: 2px;
+    margin-top: -10px;
+    font-weight: 700;
+}
+
+.content {
+    max-width: 440px;
+    margin: 40px auto;
+    padding: 0 16px;
+}
+
+.content h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #000 0%, #B90778 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.7);
+    margin-bottom: 40px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 0;
+}
+
+/* Общие стили для всех полей ввода */
+.inputGroup input,
+.input {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid rgba(185, 7, 120, 0.3);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.8);
+    transition: all 0.3s ease;
+}
+
+.inputGroup input::placeholder,
+.input::placeholder {
+    color: rgba(0, 0, 0, 0.4);
+    letter-spacing: 0.5px;
+}
+
+.inputGroup input:focus,
+.input:focus {
+    outline: none;
+    border-color: #B90778;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 20px rgba(185, 7, 120, 0.15);
+}
+
+.inputGroup input:disabled,
+.input:disabled {
+    background: rgba(255, 255, 255, 0.3);
+    cursor: not-allowed;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+/* Специальные стили для поля с SMS кодом */
+.input[placeholder="Введите код из SMS"] {
+    letter-spacing: 8px;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* Специальные стили для поля с датой */
+.inputGroup input[type="date"] {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.inputGroup input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: opacity(0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.inputGroup input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    filter: opacity(0.8);
+}
+
+/* Стили для placeholder в поле даты */
+.inputGroup input[type="date"]::-webkit-datetime-edit-text,
+.inputGroup input[type="date"]::-webkit-datetime-edit-month-field,
+.inputGroup input[type="date"]::-webkit-datetime-edit-day-field,
+.inputGroup input[type="date"]::-webkit-datetime-edit-year-field {
+    color: rgba(0, 0, 0, 0.4);
+}
+
+.inputGroup input[type="date"]:focus::-webkit-datetime-edit-text,
+.inputGroup input[type="date"]:focus::-webkit-datetime-edit-month-field,
+.inputGroup input[type="date"]:focus::-webkit-datetime-edit-day-field,
+.inputGroup input[type="date"]:focus::-webkit-datetime-edit-year-field,
+.inputGroup input[type="date"]:valid::-webkit-datetime-edit-text,
+.inputGroup input[type="date"]:valid::-webkit-datetime-edit-month-field,
+.inputGroup input[type="date"]:valid::-webkit-datetime-edit-day-field,
+.inputGroup input[type="date"]:valid::-webkit-datetime-edit-year-field {
+    color: rgba(0, 0, 0, 0.8);
+}
+
+.submitButton {
+    background: linear-gradient(135deg, #B90778 0%, #FF4DA8 100%);
+    color: white;
+    border: none;
+    border-radius: 100px;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 24px;
+}
+
+.submitButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(185, 7, 120, 0.3);
+}
+
+.submitButton:active {
+    transform: translateY(0);
+}
+
+.error {
+    color: #B90778;
+    font-size: 14px;
+    text-align: center;
+}
+
+.loginLink {
+    text-align: center;
+    margin-top: 32px;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.loginLink a {
+    color: #B90778;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 4px;
+    transition: opacity 0.3s ease;
+}
+
+.loginLink a:hover {
+    opacity: 0.7;
+}
+
+.authTypeSwitch {
+    display: flex;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 4px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+    border: 1px solid rgba(185, 7, 120, 0.1);
+}
+
+.authTypeButton {
+    flex: 1;
+    padding: 8px 16px;
+    border: none;
+    background: none;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.authTypeButton.active {
+    background: white;
+    color: #B90778;
+    box-shadow: 0 2px 10px rgba(185, 7, 120, 0.1);
+}
+
+.authTypeButton:hover:not(.active) {
+    color: #B90778;
+}
+
+/* Медиа-запросы */
+@media (max-width: 768px) {
+    .content {
+        margin: 20px auto;
+    }
+
+    .content h1 {
+        font-size: 28px;
+    }
+
+    .subtitle {
+        font-size: 14px;
+        margin-bottom: 32px;
+    }
+
+    .inputGroup input,
+    .input {
+        padding: 14px;
+        font-size: 14px;
+    }
+
+    .submitButton {
+        padding: 14px;
+        font-size: 15px;
+    }
+}
+
+#recaptcha-container {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.recaptchaContainer {
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+    .recaptchaContainer {
+        transform: scale(0.8);
+    }
+} 

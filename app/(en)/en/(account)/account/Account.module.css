@@ -1,0 +1,200 @@
+.container {
+  min-height: 100vh;
+  background: #FAFAFA;
+}
+
+.header {
+  padding: 16px;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.header h1 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.content {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.card {
+  background: white;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.cardTop {
+  display: flex;
+  gap: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.bonuses {
+  display: flex;
+  flex-direction: column;
+}
+
+.bonusesAmount {
+  font-size: 32px;
+  font-weight: bold;
+  color: #B90778;
+}
+
+.bonusesLabel {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.level {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.currentLevel {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.progressBar {
+  height: 4px;
+  background: rgba(185, 7, 120, 0.1);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(135deg, #B90778 0%, #FF4DA8 100%);
+  border-radius: 100px;
+  transition: width 0.3s ease;
+}
+
+.nextLevel {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.cardBottom {
+  padding-top: 24px;
+}
+
+.qrContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.qrCode {
+  width: 160px;
+  height: 160px;
+  color: #B90778;
+  padding: 16px;
+  background: rgba(185, 7, 120, 0.05);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qrCodeSvg {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.qrLoading {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.qrLabel {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  max-width: 200px;
+}
+
+.infoCards {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.infoCard {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.infoIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(185, 7, 120, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #B90778;
+  flex-shrink: 0;
+}
+
+.infoContent {
+  flex: 1;
+}
+
+.infoContent h3 {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+
+.infoContent p {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .cardTop {
+    padding-bottom: 20px;
+    gap: 20px;
+  }
+
+  .bonusesAmount {
+    font-size: 28px;
+  }
+
+  .qrCode {
+    width: 140px;
+    height: 140px;
+  }
+} 

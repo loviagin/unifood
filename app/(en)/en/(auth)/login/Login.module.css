@@ -1,0 +1,182 @@
+.container {
+  min-height: 100vh;
+  background: #FAFAFA;
+}
+
+.header {
+  padding: 16px;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+  color: #B90778;
+  text-decoration: none;
+}
+
+.plus {
+  margin-left: 2px;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.content {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.content h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.7);
+  margin: 8px 0 40px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inputGroup {
+  position: relative;
+}
+
+.input,
+.inputGroup input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid rgba(185, 7, 120, 0.1);
+  border-radius: 12px;
+  font-size: 16px;
+  background: white;
+  transition: all 0.3s ease;
+}
+
+.input:focus,
+.inputGroup input:focus {
+  outline: none;
+  border-color: #B90778;
+}
+
+.submitButton {
+  background: linear-gradient(135deg, #B90778 0%, #FF4DA8 100%);
+  color: white;
+  border: none;
+  border-radius: 100px;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 24px;
+}
+
+.submitButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(185, 7, 120, 0.3);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+}
+
+.error {
+  color: #B90778;
+  font-size: 14px;
+  text-align: center;
+}
+
+.registerLink {
+  text-align: center;
+  margin-top: 32px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.registerLink a {
+  color: #B90778;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 4px;
+  transition: opacity 0.3s ease;
+}
+
+.registerLink a:hover {
+  opacity: 0.7;
+}
+
+.authTypeSwitch {
+  display: flex;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 4px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(185, 7, 120, 0.1);
+}
+
+.authTypeButton {
+  flex: 1;
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.authTypeButton.active {
+  background: white;
+  color: #B90778;
+  box-shadow: 0 2px 10px rgba(185, 7, 120, 0.1);
+}
+
+.authTypeButton:hover:not(.active) {
+  color: #B90778;
+}
+
+.recaptchaContainer {
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .content {
+    margin: 20px auto;
+  }
+
+  .content h1 {
+    font-size: 28px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+
+  .inputGroup input,
+  .input {
+    padding: 14px;
+    font-size: 14px;
+  }
+
+  .submitButton {
+    padding: 14px;
+    font-size: 15px;
+  }
+} 

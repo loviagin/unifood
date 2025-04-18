@@ -1,0 +1,28 @@
+.page {
+  max-width: 100%;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+}
+
+.main {
+  width: 100%;
+  overflow: hidden;
+}
+
+.contentWrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+}
+
+@media (max-width: 768px) {
+  .contentWrapper {
+    padding: 0 1rem;
+    gap: 2rem;
+  }
+}
