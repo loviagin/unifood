@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import Email from '@/app/(root)/components/email/email';
+import Email from '@/app/components/email/email';
 import { render } from '@react-email/render';
 import * as React from 'react';
 import jwt from 'jsonwebtoken'
